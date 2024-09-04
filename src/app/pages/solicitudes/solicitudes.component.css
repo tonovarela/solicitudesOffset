@@ -1,0 +1,27 @@
+::ng-deep .e-gridheader{
+    
+    border-radius: 5px 5px 0px 0px;
+}
+    
+
+::ng-deep .e-grid{
+    border:none;
+    @apply shadow-3xl
+}
+
+
+    ::ng-deep .e-grid .e-headercelldiv{
+        @apply text-slate-500  text-base capitalize font-semibold 
+    }
+    ::ng-deep .e-grid .e-rowcell{
+        @apply font-sans  text-sm 
+    }
+
+    ::ng-deep .e-grid .e-headercelldiv{
+        height: auto;
+    }
+
+    ::ng-deep .e-grid .e-headercell{
+        height: 40px;
+        @apply py-3  
+    }
