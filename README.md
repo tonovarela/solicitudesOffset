@@ -15,27 +15,18 @@ Este proyecto es una aplicación Angular diseñada para gestionar las operacione
 
 Sigue estos pasos para instalar y ejecutar el proyecto en tu máquina local:
 
-1. Clona el repositorio:
-    ```bash
-    git clone https://github.com/tu-usuario/tu-repositorio.git
-    ```
 
-2. Navega al directorio del proyecto:
-    ```bash
-    cd tu-repositorio
-    ```
-
-3. Instala las dependencias:
+1. Instala las dependencias:
     ```bash
     npm install
     ```
 
-4. Ejecuta la aplicación:
+2. Ejecuta la aplicación:
     ```bash
     ng serve
     ```
 
-5. Abre tu navegador y navega a `http://localhost:4200`.
+4. Abre tu navegador y navega a `http://localhost:4200`.
 
 ## Uso
 
