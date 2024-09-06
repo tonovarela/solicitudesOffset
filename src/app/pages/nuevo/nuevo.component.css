@@ -12,3 +12,36 @@
       transform: rotate(360deg);
     }
   }
+
+  select {       
+    background: #fff url("/assets/img/selectors.svg") no-repeat right 0.4rem center/25px 20px;
+   padding: 0.5rem 1rem;   
+   border-radius: 0.25rem;
+   appearance: none;
+   -webkit-appearance: none;
+   -moz-appearance: none; 
+  }
+  select > option {    
+    background-color: #fff;
+    color: #333;
+    
+    
+  }
+
+
+  .option {    
+  color:rgb(103 116 142) !important;
+  @apply  text-lg  leading-none  font-thin;
+
+        
+  }
+
+
+
+
+  
+
+
+
+  
+  

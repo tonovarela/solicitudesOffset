@@ -17,7 +17,12 @@ export class NuevoComponent  implements OnDestroy {
   
 
   public valorQuery: string = "";
-  public selectedOP  :any | null = null;
+  public selectedOP  :any | null = {
+    OP:'L35466',
+    componente:'Componente 1',
+    cantidad: 10,
+    descripcion: 'Descripcion del OP 1',
+};
   private valorQuerySubject: Subject<string> = new Subject<string>();
   private solicitudService= inject(SolicitudService);
   cargandoBusqueda= signal(false);
