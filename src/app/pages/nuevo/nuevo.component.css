@@ -37,6 +37,31 @@
   }
 
 
+  ::ng-deep  .p-dropdown .p-inputtext{
+    padding: 0.4rem 0.75rem;
+    @apply text-sm
+  }
+
+  ::ng-deep .p-dropdown:focus {
+    border-color: #000 !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25); 
+  }
+
+  ::ng-deep  .p-dropdown-panel .p-dropdown-items .p-dropdown-item{
+  padding: 0.4rem 0.75rem;
+  @apply text-sm
+  }
+
+  ::ng-deep .p-dropdown:not(.p-visible).p-focus {
+    box-shadow: none;
+    @apply border-indigo-600
+   
+  }
+
+  ::ng-deep .p-placeholder {
+    @apply text-gray-400
+
+  }
 
 
   

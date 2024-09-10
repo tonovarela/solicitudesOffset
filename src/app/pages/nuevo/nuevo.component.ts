@@ -14,9 +14,10 @@ export class NuevoComponent  implements OnDestroy {
 
 
 
-  
 
   public valorQuery: string = "";
+
+  public options = [{id:1,descripcion:'Maquina 1'},{id:2,descripcion:'Maquina 2'},{id:3,descripcion:'Maquina 3'}];
   public selectedOP  :any | null = {
     OP:'L35466',
     componente:'Componente 1',
