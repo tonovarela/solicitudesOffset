@@ -1,20 +1,4 @@
-export const data: Object[] = [
-    {
-        OrderID: 10248, CustomerID: 'VINET', EmployeeID: 5, OrderDate: new Date(8364186e5),
-        ShipName: 'Vins et alcools Chevalier', ShipCity: 'Reims', ShipAddress: '59 rue de l Abbaye',
-
-    },
-    {
-        OrderID: 10249, CustomerID: 'TOMSP', EmployeeID: 6, OrderDate: new Date(836505e6),
-        ShipName: 'Toms Spezialitäten', ShipCity: 'Münster', ShipAddress: 'Luisenstr. 48',
-
-    },
-    {
-        OrderID: 10250, CustomerID: 'HANAR', EmployeeID: 4, OrderDate: new Date(8367642e5),
-        ShipName: 'Hanari Carnes', ShipCity: 'Rio de Janeiro', ShipAddress: 'Rua do Paço, 67',
-
-    },
-];
+import { Maquina, Orden } from "../interfaces/solicitud.interface";
 
 
 export const obtenerSolicitudes = () => {
@@ -22,7 +6,7 @@ export const obtenerSolicitudes = () => {
     for (let i = 1; i <= 500; i++) {
         solicitudes.push({
             id: i,
-            OP: `OP ${i}`,
+            op: `OP ${i}`,
             solicita: `Solicitante ${i}`,
             id_solicitate: i,
             id_estado: i % 3 + 1, // Alterna entre 1, 2 y 3
@@ -40,29 +24,47 @@ export const obtenerSolicitudes = () => {
 }
 
 
-export const OPS =[
+export const OPS:Orden[] =[
     {
         OP:'L35466',
         componente:'Componente 1',
         cantidad: 10,
         descripcion: 'Descripcion del OP 1',
+        cantidadSurtida:5,
+        porSurtir: 0
     },
     {
         OP:'L35465',
         componente:'Componente 2',
         cantidad: 4,
         descripcion: 'Descripcion del OP 1',
+        cantidadSurtida:2,
+        porSurtir: 0
+
     },
     {
         OP:'L35464',
         componente:'Componente 3',
         cantidad: 9,
         descripcion: 'Descripcion del OP 1',
+        cantidadSurtida:5,
+        porSurtir: 0
     },
     {
         OP:'L35463',
         componente:'Componente 4',
         cantidad: 15,
         descripcion: 'Descripcion del OP 1',
+        cantidadSurtida:7,
+        porSurtir: 0
     }
+]
+
+
+export const maquinas:Maquina[] = [
+    {id:"1",descripcion:"Maquina 1"},
+    {id:"2",descripcion:"Maquina 2"},
+    {id:"3",descripcion:"Maquina 3"},
+    {id:"4",descripcion:"Maquina 4"},
+    {id:"5",descripcion:"Maquina 5"},
 ]

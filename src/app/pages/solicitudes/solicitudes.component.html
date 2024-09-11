@@ -1,7 +1,7 @@
    <!-- cards row 3 -->
   
     <div  >
-      <ejs-grid #grid [dataSource]='data'      
+      <ejs-grid #grid [dataSource]='data()'      
       [filterSettings]="filterSettings " (dataBound)='dataBound()'
           [allowExcelExport]='true'  
           AutoFitAll="true"                  
@@ -21,7 +21,7 @@
         </ng-template>
         </e-column>
         <e-column field='solicita'  width='150' AutoFit ></e-column>
-        <e-column field='OP'  width='150' AutoFit ></e-column>
+        <e-column field='op'  width='150' AutoFit ></e-column>
         
         <e-column field='estado' width='150'  ></e-column>
         <e-column field='componente'  width='150' ></e-column>

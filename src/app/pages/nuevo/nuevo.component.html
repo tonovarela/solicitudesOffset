@@ -41,108 +41,147 @@
 
 
   @if(selectedOP){
-  <div class="flex flex-col  sm:flex-row gap-7">
-    <div class=" w-full sm:w-1/2 md:w-1/3  my-1">
-      <div class="bg-white shadow-lg rounded-lg p-6 space-y-4 relative">
-        <button (click)="closeDetail()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <div class="flex items-center space-x-4">
-          <div class="p-2 bg-purple-200 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24"
-              stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
-            </svg>
-          </div>
-          <div>
-
-            <div class="text-gray-900 text-2xl font-semibold">
-              {{ selectedOP!.OP }}
+  <div class="flex flex-col sm:flex-row ">
+    <div class="rounded-lg border bg-card  w-full   sm:w-1/2  md:3/4 mx-auto shadow-sm   ">
+      <div class="">
+        <div class="w-full ">
+          <div class="bg-white rounded-lg  relative pt-5">
+            <button (click)="closeDetail()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+               
+            <div class="grid grid-cols-2 sm:grid-cols-3 p-3    sm:text-center">
+              <div class="flex justify-start sm:justify-end flex-row space-x-10 ">
+                <div class="p-3 bg-purple-200 rounded-full hidden portrait:hidden sm:block ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-9 text-purple-600" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+                  </svg>                
+                </div>              
+                <div class="text-gray-900  text-center text-4xl font-semibold sm:text-5xl  ">
+                  {{ selectedOP!.OP }}
+                </div>            
+              </div>
+              
+              <div class="flex flex-col text-center  w-full col-span-2 ">
+                <div class="text-gray-600 text-xl font-extrabold  ">{{ selectedOP!.descripcion }}</div>
+                <div class="text-gray-800 text-lg  ">{{ selectedOP!.componente }}</div>
+              </div>
             </div>
-            <div class="text-gray-600 text-sm">{{ selectedOP!.descripcion }}</div>
+         
+            <!-- <div class="flex  flex-col  sm:flex-row  justify-around space-x-10  p-3  ">
+              
+              <div  class="mx-auto">
+                <div class="p-3 bg-purple-200 rounded-full hidden sm:block ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-9 text-purple-600" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+                  </svg>                
+                </div>              
+              </div>
+              
+                <div class="text-gray-900  text-5xl font-semibold  ">
+                  {{ selectedOP!.OP }}
+                </div>            
+              
+              <div class="flex flex-col sm:items-start items-center w-full">
+                <div class="text-gray-600 text-sm  md:text-lg  ">{{ selectedOP!.descripcion }}</div>
+                <div class="text-gray-800 text-sm  ">{{ selectedOP!.componente }}</div>
+              </div>
+            </div> -->
+    
+            <div class="grid grid-cols-3 text-center bg-slate-100/40 rounded p-3 ">
+              <div class="text-gray-800 text-xl ">Metrics </div>
+              <div class="text-gray-800 text-xl ">Por surtir </div>
+              <div class="text-gray-800 text-xl ">Surtido </div>
+              <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.cantidad }}</div>
+              <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.porSurtir }}</div>
+              <div class="text-gray-600 text-4xl font-semibold">{{ selectedOP!.cantidadSurtida }}</div>
+            </div>        
           </div>
+    
         </div>
-
-      </div>
-    </div>
-
-    <div class="rounded-lg border bg-card mx-auto  shadow-sm w-full sm:w-1/3 md:w-2/3  xl:w-2/4 my-1  ">
-      
-      <div class="p-6 ">
-        <form class="space-y-4">                                                                
-            <div class="flex  flex-col md:flex-row gap-4">
-              <div class="grid basis-1/2 gap-2">
-                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  for="cantidad">
-                  Cantidad
-                </label>
-                <p-inputNumber
-                styleClass="w-full"
-                placeholder="Cantidad"
-                inputStyleClass="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background  placeholder:text-muted-foreground 
-                focus-visible:ring-indigo-600
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                 mode="decimal" [min]="0" [max]="100" />            
-              </div>
-              <div class="grid basis-1/2 gap-2">
-                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
-                  for="maquina">
-                  Máquina
-                </label>
-    
-    
-                <p-dropdown [options]="options"
-                  styleClass="w-full border-2 p-0 rounded-md   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  optionLabel="descripcion" placeholder="Seleccione una máquina" />
-    
-    
-              </div>
+        <form class="space-y-4 p-6" [formGroup]="solicitudForm">
+          <div class="flex  flex-col  sm:flex-row gap-4  ">
+            <div class="grid basis-1/2 gap-2  "  [class.has-error]="tieneErrores('cantidad')">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                for="cantidad">
+                Cantidad
+              </label>
+              <p-inputNumber styleClass="w-full" 
+              formControlName="cantidad"
+                inputStyleClass='form-control px-3 py-2'                
+                mode="decimal" [min]="0" [max]="100" />
             </div>
-          
+            <div class="grid basis-1/2  "  [class.has-error]="tieneErrores('id_maquina')">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
+                for="maquina">
+                Máquina
+              </label>
+              <p-dropdown [options]="maquinas"
+              formControlName="id_maquina"
+                styleClass="form-control "
+                optionLabel="descripcion"
+                optionValue="id"
+                 placeholder="Seleccione una máquina" />
+            </div>
+          </div>
           <div class="flex flex-col md:flex-row  gap-4">
-            <div class="grid basis-1/2 gap-2">
+            <div class="grid basis-1/2 gap-2"  [class.has-error]="tieneErrores('fecha_entrega')">
               <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              for="cantidad">
-              Fecha de entrega
-            </label>
-            <p-calendar 
-            styleClass="w-full"
-            inputStyleClass="flex h-10 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background  placeholder:text-muted-foreground 
-            focus-visible:ring-indigo-600
-            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            />  
+                for="cantidad">
+                Fecha de entrega
+              </label>
+              <p-calendar 
+              formControlName="fecha_entrega"
+              styleClass="w-full"
+              
+                inputStyleClass="form-control px-3 py-2" />
             </div>
-  
-            <div class="grid basis-1/2 gap-2">
-              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              for="cantidad">
-              Hora de entrega
-            </label>
-            <p-calendar 
-            styleClass="w-full"
-            [timeOnly]="true" 
-            inputStyleClass="flex h-10 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background  placeholder:text-muted-foreground 
-            focus-visible:ring-indigo-600
-            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            />  
-            </div>
-          </div>
 
-          <div class="flex flex-row-reverse">
-         <hr>
-            <button class="bg-indigo-500 mt-5 text-white rounded-md p-2">Registrar</button>
+            <div class="grid basis-1/2 gap-2" [class.has-error]="tieneErrores('hora_entrega')">
+              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                for="cantidad">
+                Hora de entrega
+              </label>
+              <p-calendar styleClass="w-full" [timeOnly]="true"
+              formControlName="hora_entrega"
+                inputStyleClass="form-control px-3 py-2" />
+            </div>
           </div>
+          <div class="grid  gap-2">
+            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              for="comentarios">
+              Comentarios
+            </label>
+            <textarea
+            formControlName="comentarios"
+            name="comentarios"
+              class="flex h-20 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background  placeholder:text-muted-foreground 
+          focus-visible:ring-indigo-600
+          focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
+          </div>
+          
+
+          <div class="flex  justify-between">
+            
+            <button [disabled]="guardando()" class="bg-slate-400  text-white p-2 mt-5  rounded-md" routerLink="/solicitudes">Regresar</button>
+            <button [disabled]="guardando()" class="bg-indigo-500 mt-5 text-white rounded-md p-2 disabled:bg-indigo-500/50" (click)="guardarSolicitud()">
+              <i *ngIf="guardando()" class="fas fa-spinner fa-spin"></i>
+              Guardar</button>
+          </div>  
 
         </form>
       </div>
     </div>
-
+    
+   
+    
   </div>
-
-
 
 
 
@@ -150,6 +189,7 @@
 
 
 
-  <!-- component -->
+  
 
+  
 </div>

@@ -10,9 +10,10 @@ import { HeaderComponent } from './shared/header/header.component';
 import { NuevoComponent } from './pages/nuevo/nuevo.component';
 import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
 import { SynfusionModule } from './lib/synfusion/synfusion.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PrimeNgModule } from './lib/primeng/primeng.module';
+
 
 @NgModule({
   declarations: [
@@ -29,9 +30,8 @@ import { PrimeNgModule } from './lib/primeng/primeng.module';
     HttpClientModule,
     PrimeNgModule,
     FormsModule,
-    SynfusionModule
-
-
+    ReactiveFormsModule,
+    SynfusionModule,    
   
   ],
   providers: [],
