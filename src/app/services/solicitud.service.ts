@@ -53,7 +53,7 @@ export class SolicitudService {
 
 
   buscarOP(patron: string) {
-    return of(OPS.filter(op => op.OP.toLowerCase().includes(patron.toLowerCase()))).pipe(delay(500));
+    return of(OPS.filter(op => op.op.toLowerCase().includes(patron.toLowerCase()))).pipe(delay(500));
 
   }
 

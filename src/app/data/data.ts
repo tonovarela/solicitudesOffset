@@ -26,32 +26,32 @@ export const obtenerSolicitudes = () => {
 
 export const OPS:Orden[] =[
     {
-        OP:'L35466',
+        op:'L35466',
         componente:'Componente 1',
         cantidad: 10,
-        descripcion: 'Descripcion del OP 1',
+        descripcion: 'Descripcion del op 1',
         cantidadSurtida:5,
         porSurtir: 0
     },
     {
-        OP:'L35465',
+        op:'L35465',
         componente:'Componente 2',
         cantidad: 4,
-        descripcion: 'Descripcion del OP 1',
+        descripcion: 'Descripcion del op 1',
         cantidadSurtida:2,
         porSurtir: 0
 
     },
     {
-        OP:'L35464',
+        op:'L35464',
         componente:'Componente 3',
         cantidad: 9,
-        descripcion: 'Descripcion del OP 1',
+        descripcion: 'Descripcion del op 1',
         cantidadSurtida:5,
         porSurtir: 0
     },
     {
-        OP:'L35463',
+        op:'L35463',
         componente:'Componente 4',
         cantidad: 15,
         descripcion: 'Descripcion del OP 1',

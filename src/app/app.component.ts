@@ -11,7 +11,7 @@ declare var cargandoPlugins: any
 export class AppComponent   implements OnInit,AfterViewInit {
   anio: number = new Date().getFullYear();
   ngAfterViewInit(): void {
-    cargandoPlugins();
+    //cargandoPlugins();
   }
   ngOnInit(): void {
     

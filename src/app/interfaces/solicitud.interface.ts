@@ -15,7 +15,7 @@ export interface Solicitud {
 }
 
 export interface Orden {
-    OP:string,
+    op:string,
     componente:string,
     cantidad: number,
     descripcion: string,

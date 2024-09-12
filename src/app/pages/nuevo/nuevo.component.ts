@@ -1,5 +1,5 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { firstValueFrom, Subject, switchMap } from 'rxjs';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { firstValueFrom, interval, Subject, Subscription, switchMap } from 'rxjs';
 import { SolicitudService } from '../../services/solicitud.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +8,8 @@ import { locale_es } from '../../conf/calendar-es';
 import { Router } from '@angular/router';
 import { Maquina, Orden } from '../../interfaces/solicitud.interface';
 import { maquinas } from '../../data/data';
+import { horaEntregaValidator } from '../../utils/validators';
+import { NgSignaturePadOptions } from '@almothafar/angular-signature-pad';
 
 
 @Component({
@@ -19,46 +21,87 @@ import { maquinas } from '../../data/data';
 export class NuevoComponent implements OnInit, OnDestroy {
 
   primeConfig = inject(PrimeNGConfig);
+  private solicitudService = inject(SolicitudService);
   private router = inject(Router);
 
-  public guardando = signal(false);
+
+  public _today = signal(new Date());
 
   public valorQuery: string = "";
+  public today = computed(() => {
+    const fecha = this._today();
+    
+    return new Date(fecha.getTime() + (2 * 60+1) * 60 * 1000);
+    
+  });
+
   public locale_es = locale_es;
-  public maquinas:Maquina[] = maquinas;
+  public maquinas: Maquina[] = maquinas;
+   public selectedOP: Orden | null = null;
+   signaturePadOptions: NgSignaturePadOptions = { // passed through to szimek/signature_pad constructor
+    minWidth: 5,
+    canvasWidth: 1400,
+    canvasHeight: 300
+  };
+   //{
+  //   op:'4646',
+  //   componente:'46',
+  //   cantidad: 1,
+  //   descripcion: "ds",
+  //   cantidadSurtida: 0,
+  //   porSurtir: 0
+  // };
+
   public solicitudForm = new FormGroup({
-    op: new FormControl<string | null>('55'),
-    cantidad: new FormControl('', [Validators.required, Validators.min(1)]),
-    id_maquina: new FormControl('', [Validators.required]),
-    comentarios: new FormControl(''),
-    fecha_entrega: new FormControl<Date | null>(null, [Validators.required]),
-    hora_entrega: new FormControl<Date | null>(null, [Validators.required]),
+    op: new FormControl<string | null>(''),
+    cantidad: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+    id_maquina: new FormControl<string>('', [Validators.required]),
+    comentarios: new FormControl<string>(''),
+    fecha_entrega: new FormControl<Date>(this.today(), [Validators.required]),
+    hora_entrega: new FormControl<Date>(this.today(), [Validators.required]),
   });
 
 
-
-  public selectedOP: Orden | null = null;
-
   private valorQuerySubject: Subject<string> = new Subject<string>();
-  private solicitudService = inject(SolicitudService);
-  
+  private subscriptions: Subscription[] = [];
 
-  cargandoBusqueda = signal(false);
-  OPsBusqueda = signal<any[]>([]);
+  public guardando = signal(false);
+  public cargandoBusqueda = signal(false);
+  public OPsBusqueda = signal<Orden[]>([]);
+  public puedeCapturarCantidad = signal(true);
 
   constructor() {
 
+    const subscriptionCantidad = this.solicitudForm.get('cantidad')!.valueChanges.subscribe((cantidad) => {
+      const opSelected = this.selectedOP!
+      const puedeCapturar = opSelected.cantidadSurtida + opSelected.porSurtir + (cantidad || 0) <= opSelected.cantidad
+      this.puedeCapturarCantidad.set(puedeCapturar);
+    });
+    const subscriptionFecha = this.solicitudForm.get('fecha_entrega')!.valueChanges.subscribe((fecha) => {
+      if (fecha != null) this.solicitudForm.get('hora_entrega')!.setValue(null);
+    });
+    const subscriptionInterval = interval(1000).subscribe(() => {
+      this._today.set(new Date());
+    });
+    this.subscriptions.push(subscriptionInterval);
+    this.subscriptions.push(subscriptionCantidad);
+    this.subscriptions.push(subscriptionFecha);
     this.valorQuerySubject.pipe(
       switchMap(query => { return this.solicitudService.buscarOP(query) })
     ).subscribe((ops) => {
       this.cargandoBusqueda.set(false);
       this.OPsBusqueda.set(ops);
     })
+
   }
   ngOnInit(): void {
     this.primeConfig.setTranslation(locale_es);
+    this.solicitudForm.get('hora_entrega')!.addValidators(horaEntregaValidator(this.solicitudForm.get('fecha_entrega')!))
+
+
   }
   ngOnDestroy(): void {
+    this.subscriptions?.forEach(s => s.unsubscribe());
     this.valorQuerySubject.unsubscribe();
   }
   OnQueryChanged() {
@@ -77,6 +120,10 @@ export class NuevoComponent implements OnInit, OnDestroy {
   }
   closeDetail() {
     this.selectedOP = null; // Cierra el detalle de la OP
+    this.solicitudForm.reset(); // Resetea el formulario
+    this.solicitudForm.get('cantidad')!.setValue(0); // Restablece el valor de la OP
+    this.solicitudForm.get('fecha_entrega')!.setValue(this.today()); // Restablece la fecha de entrega
+    this.solicitudForm.get('hora_entrega')!.setValue(this.today()); // Restablece la hora de entrega  
   }
 
 
@@ -84,31 +131,37 @@ export class NuevoComponent implements OnInit, OnDestroy {
     return this.solicitudForm.get(nombre)!.invalid && (this.solicitudForm.get(nombre)!.dirty || this.solicitudForm.get(nombre)!.touched)
   }
 
+
+
   async guardarSolicitud() {
+    this.solicitudForm.updateValueAndValidity({ onlySelf: false, emitEvent: true });
     this.solicitudForm.markAllAsTouched();
-    this.solicitudForm.updateValueAndValidity();
-    if (!this.solicitudForm.valid) {
+    if (!this.solicitudForm.valid || !this.puedeCapturarCantidad()) {
       return;
     }
-
     const { fecha_entrega, hora_entrega, ...res } = this.solicitudForm.value;
-    
     const peticion = {
       ...res,
+      op: this.selectedOP!.op,
       solicita: 'Varela',
-      componente: this.selectedOP!.componente,
-      maquina : this.maquinas.find(m => m.id === res.id_maquina)!.descripcion,  
+      id: 5,
       id_solicitate: 1,
+
+      componente: this.selectedOP!.componente,
+      maquina: this.maquinas.find(m => m.id === res.id_maquina)!.descripcion,
       id_estado: 1,
       estado: 'Por surtir',
-      fecha_registro: new Date(), 
-      id: 5,
+      fecha_registro: new Date(),
+
       fecha_entrega: fecha_entrega!.toISOString().slice(0, 10) + ' ' + hora_entrega!.toTimeString().slice(0, 5)
     }
     this.guardando.set(true);
     await firstValueFrom(this.solicitudService.agregarSolicitud(peticion));
     this.guardando.set(false);
-    console.log(peticion);
+
     this.router.navigate(['/solicitudes']);
   }
+
+
+
 }

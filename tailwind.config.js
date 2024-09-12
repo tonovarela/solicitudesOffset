@@ -19,6 +19,7 @@ module.exports = {
       "xl-max": { max: "1200px" },
       "2xl": "1320px",
       "2xl-max": { max: "1320px" },
+      "3xl": "1500px",
     },
     colors: ({ colors }) => ({
       inherit: colors.inherit,

@@ -18,13 +18,13 @@
       <p-autoComplete [(ngModel)]="valorQuery" styleClass="w-full" baseZIndex="9999" placeholder="Buscar OP" lazy="true"
         scrollHeight="500px" (onSelect)="onSelect($event)" delay="500"
         inputStyleClass="pl-16  py-4 rounded-md shadow-md bg-transparent border-0 w-full outline-none"
-        [emptyMessage]="cargandoBusqueda()?'Buscando':'No se encontraron resultados'" field="OP"
+        [emptyMessage]="cargandoBusqueda()?'Buscando':'No se encontraron resultados'" field="op"
         [suggestions]="OPsBusqueda()" (completeMethod)="OnQueryChanged()">
         <ng-template let-op pTemplate="item">
           <div class="grid grid-cols-10 gap-1 justify-center items-center cursor-pointer  rounded-lg">
             <div class="col-start-1 col-end-12  m-0">
               <div class="flex flex-col md:flex-row items-center justify-between  ">
-                <h4 class="text-gray-900 font-medium text-pretty">{{op.OP}} </h4>
+                <h4 class="text-gray-900 font-medium text-pretty">{{op.op}} </h4>
                 <p class="text-gray-900 text-md"> {{op.componente}}</p>
               </div>
               <div class="flex flex-col md:flex-row  items-center justify-between ">
@@ -37,12 +37,17 @@
       </p-autoComplete>
 
     </div>
+  
   </div>
 
+  <div class="w-full bg-white">
+    <signature-pad  style="background-color:transparent; border-style: none;" #signature [options]="signaturePadOptions" ></signature-pad>
+  </div>
+  
 
   @if(selectedOP){
   <div class="flex flex-col sm:flex-row ">
-    <div class="rounded-lg border bg-card  w-full   sm:w-1/2  md:3/4 mx-auto shadow-sm   ">
+    <div class="rounded-lg border bg-card   w-full  3xl:w-1/2   mx-auto shadow-sm   ">
       <div class="">
         <div class="w-full ">
           <div class="bg-white rounded-lg  relative pt-5">
@@ -62,7 +67,7 @@
                   </svg>                
                 </div>              
                 <div class="text-gray-900  text-center text-4xl font-semibold sm:text-5xl  ">
-                  {{ selectedOP!.OP }}
+                  {{ selectedOP!.op }}
                 </div>            
               </div>
               
@@ -106,19 +111,21 @@
     
         </div>
         <form class="space-y-4 p-6" [formGroup]="solicitudForm">
-          <div class="flex  flex-col  sm:flex-row gap-4  ">
-            <div class="grid basis-1/2 gap-2  "  [class.has-error]="tieneErrores('cantidad')">
-              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          <div class="flex  flex-col  sm:flex-row gap-4 mb-6 ">
+            <div class="grid basis-1/2 gap-2 h-16   "  [class.has-error]="tieneErrores('cantidad')  || !puedeCapturarCantidad()">              
+                <label class="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 for="cantidad">
-                Cantidad
-              </label>
-              <p-inputNumber styleClass="w-full" 
+                Cantidad                                </label>                            
+              <p-inputNumber styleClass="w-full"  
               formControlName="cantidad"
-                inputStyleClass='form-control px-3 py-2'                
-                mode="decimal" [min]="0" [max]="100" />
+                inputStyleClass='form-control  px-3 py-2'                
+                mode="decimal" [min]="0"  />
+                @if(!puedeCapturarCantidad()){               
+                  <label class="text-xxs font-extrabold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">No se puede solicitar mas de lo registrado en metrics</label>
+                  }
             </div>
-            <div class="grid basis-1/2  "  [class.has-error]="tieneErrores('id_maquina')">
-              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
+            <div class="grid basis-1/2 gap-2  "  [class.has-error]="tieneErrores('id_maquina')">
+              <label class="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 "
                 for="maquina">
                 Máquina
               </label>
@@ -132,43 +139,46 @@
           </div>
           <div class="flex flex-col md:flex-row  gap-4">
             <div class="grid basis-1/2 gap-2"  [class.has-error]="tieneErrores('fecha_entrega')">
-              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              <label class="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 for="cantidad">
                 Fecha de entrega
               </label>
               <p-calendar 
               formControlName="fecha_entrega"
-              styleClass="w-full"
-              
-                inputStyleClass="form-control px-3 py-2" />
+              styleClass="w-full"              
+                inputStyleClass="form-control px-3 py-2" />                
             </div>
 
-            <div class="grid basis-1/2 gap-2" [class.has-error]="tieneErrores('hora_entrega')">
-              <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            <div class="grid basis-1/2 gap-2 h-16" [class.has-error]="tieneErrores('hora_entrega')">
+              <label class="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 for="cantidad">
                 Hora de entrega
               </label>
               <p-calendar styleClass="w-full" [timeOnly]="true"
               formControlName="hora_entrega"
+              
                 inputStyleClass="form-control px-3 py-2" />
+                <label class="text-xxs font-extrabold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Fecha de entrega no puede ser menor a  {{today() | date:'dd/MM/yyyy  HH:mm' }} horas
+                </label>
+                
             </div>
           </div>
           <div class="grid  gap-2">
-            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            <label class="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               for="comentarios">
               Comentarios
             </label>
             <textarea
             formControlName="comentarios"
             name="comentarios"
-              class="flex h-20 w-full rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background  placeholder:text-muted-foreground 
+              class="flex h-20 w-full rounded-md border border-input bg-background px-3 py-1  ring-offset-background  placeholder:text-muted-foreground 
           focus-visible:ring-indigo-600
           focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
           </div>
           
 
-          <div class="flex  justify-between">
-            
+          <div class="flex  justify-between">            
             <button [disabled]="guardando()" class="bg-slate-400  text-white p-2 mt-5  rounded-md" routerLink="/solicitudes">Regresar</button>
             <button [disabled]="guardando()" class="bg-indigo-500 mt-5 text-white rounded-md p-2 disabled:bg-indigo-500/50" (click)="guardarSolicitud()">
               <i *ngIf="guardando()" class="fas fa-spinner fa-spin"></i>

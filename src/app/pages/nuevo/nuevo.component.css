@@ -13,9 +13,16 @@
   }
 }
 
+.sig-container canvas {
+  border-style: solid;
+  border-width: 1px;
+  background-image: url(http://lathonez.com/angular2-signaturepad-demo/assets/sign-here.png);
+  background-repeat: no-repeat;
+  background-position-y: 95%;
+}
 
 ::ng-deep .form-control {
-  @apply flex h-10 w-full rounded-md border  text-sm focus-visible:ring-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50
+  @apply flex h-11 text-center  w-full rounded-md border  text-xl  focus-visible:ring-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50
 }
 
 ::ng-deep .has-error label {

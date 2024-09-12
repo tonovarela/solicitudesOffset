@@ -13,6 +13,7 @@ import { SynfusionModule } from './lib/synfusion/synfusion.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PrimeNgModule } from './lib/primeng/primeng.module';
+import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
 
 
 @NgModule({
@@ -25,10 +26,12 @@ import { PrimeNgModule } from './lib/primeng/primeng.module';
   ],
   imports: [    
     BrowserModule,
+    
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     PrimeNgModule,
+    AngularSignaturePadModule ,
     FormsModule,
     ReactiveFormsModule,
     SynfusionModule,    
