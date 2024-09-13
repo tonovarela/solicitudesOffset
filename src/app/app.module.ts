@@ -4,16 +4,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { HeaderComponent } from './shared/header/header.component';
 
-import { NuevoComponent } from './pages/nuevo/nuevo.component';
-import { SolicitudesComponent } from './pages/solicitudes/solicitudes.component';
-import { SynfusionModule } from './lib/synfusion/synfusion.module';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { PrimeNgModule } from './lib/primeng/primeng.module';
-import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
+
+import { PrimeNgModule } from '@lib/primeng/primeng.module';
+
+import { FirmaPadComponent } from '@shared/firma-pad/firma-pad.component';
+import { SynfusionModule } from '@lib/synfusion/synfusion.module';
+import { HeaderComponent } from '@shared/header/header.component';
+import { SidebarComponent } from '@shared/sidebar/sidebar.component';
+
+import { NuevoComponent } from '@pages/nuevo/nuevo.component';
+import { SolicitudesComponent } from '@pages/solicitudes/solicitudes.component';
+import { SurtirComponent } from '@pages/surtir/surtir.component';
+
+
 
 
 @NgModule({
@@ -21,17 +28,17 @@ import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
     AppComponent,
     SidebarComponent,
     HeaderComponent,    
+    FirmaPadComponent,
     NuevoComponent,
-    SolicitudesComponent
+    SolicitudesComponent,
+    SurtirComponent
   ],
   imports: [    
-    BrowserModule,
-    
+    BrowserModule,    
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    PrimeNgModule,
-    AngularSignaturePadModule ,
+    PrimeNgModule,    
     FormsModule,
     ReactiveFormsModule,
     SynfusionModule,    

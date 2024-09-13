@@ -1,0 +1,22 @@
+@keyframes fadeIn {
+  from {
+	opacity: 0;
+	transform: translateY(20px);
+  }
+  to {
+	opacity: 1;
+	transform: translateY(0);
+  }
+}
+
+
+
+.fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+
+::ng-deep .has-error div{
+  @apply border-red-400 focus-visible:ring-0
+}
+

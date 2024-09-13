@@ -25,7 +25,7 @@ export class SolicitudService {
         id: i,
         op: `OP ${i}`,
         solicita: `Solicitante ${i}`,
-        id_solicitate: i,
+        id_solicitante: i,
         id_estado: i % 3 + 1, // Alterna entre 1, 2 y 3
         estado: ['Por surtir', 'Cerrado', 'Cancelado'][i % 3],
         componente: `Componente ${i}`,

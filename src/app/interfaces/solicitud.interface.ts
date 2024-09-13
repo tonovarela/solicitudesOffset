@@ -2,7 +2,7 @@ export interface Solicitud {
     id: number;
     op: string;
     solicita: string;
-    id_solicitate: number;
+    id_solicitante: number;
     id_estado: number;
     estado: string;
     componente: string;
@@ -27,3 +27,8 @@ export interface Maquina {
     id: string;
     descripcion: string;
 }
+
+export interface ColumnSolicitud extends Solicitud {
+    column: any,
+    index: string
+  }

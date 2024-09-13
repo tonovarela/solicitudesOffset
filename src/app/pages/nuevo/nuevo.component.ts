@@ -1,15 +1,20 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { firstValueFrom, interval, Subject, Subscription, switchMap } from 'rxjs';
-import { SolicitudService } from '../../services/solicitud.service';
+
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PrimeNGConfig } from 'primeng/api';
-import { locale_es } from '../../conf/calendar-es';
 import { Router } from '@angular/router';
-import { Maquina, Orden } from '../../interfaces/solicitud.interface';
+import { PrimeNGConfig } from 'primeng/api';
+
+
 import { maquinas } from '../../data/data';
-import { horaEntregaValidator } from '../../utils/validators';
-import { NgSignaturePadOptions } from '@almothafar/angular-signature-pad';
+
+import { SolicitudService } from '@services/solicitud.service';
+import { Maquina, Orden } from '@interfaces/solicitud.interface';
+import { locale_es } from '@conf/calendar-es';
+import { horaEntregaValidator } from 'src/app/utils/validators';
+
+
 
 
 @Component({
@@ -37,12 +42,8 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
   public locale_es = locale_es;
   public maquinas: Maquina[] = maquinas;
-   public selectedOP: Orden | null = null;
-   signaturePadOptions: NgSignaturePadOptions = { // passed through to szimek/signature_pad constructor
-    minWidth: 5,
-    canvasWidth: 1400,
-    canvasHeight: 300
-  };
+  public selectedOP: Orden | null = null;
+  
    //{
   //   op:'4646',
   //   componente:'46',
@@ -131,6 +132,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
     return this.solicitudForm.get(nombre)!.invalid && (this.solicitudForm.get(nombre)!.dirty || this.solicitudForm.get(nombre)!.touched)
   }
 
+ 
 
 
   async guardarSolicitud() {

@@ -10,7 +10,6 @@
   },
   "private": true,
   "dependencies": {
-    "@almothafar/angular-signature-pad": "^5.0.1",
     "@angular/animations": "^17.0.0",
     "@angular/common": "^17.0.0",
     "@angular/compiler": "^17.0.0",
@@ -23,6 +22,7 @@
     "@syncfusion/ej2-angular-navigations": "^23.2.5",
     "primeng": "^17.18.9",
     "rxjs": "~7.8.0",
+    "signature_pad": "^5.0.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },
