@@ -1,15 +1,19 @@
    <!-- cards row 3 -->
   
     <div  >
-      <ejs-grid #grid [dataSource]='data()'      
-      [filterSettings]="filterSettings " (dataBound)='dataBound()'
-          [allowExcelExport]='true'  
-          AutoFitAll="true"                  
-        [height]="heightGrid"          
-              allowReordering='true' [allowFiltering]=true allowPaging="true " allowResizing="true" allowSorting="true"
-              [pageSettings]='pageSettings'                
-      >
+      <ejs-grid #grid [dataSource]='solicitudes()' [filterSettings]="filterSettings " (dataBound)='dataBound()' [allowExcelExport]='true'  AutoFitAll="true" [height]="heightGrid"   allowReordering='true' [allowFiltering]=true allowPaging="true " allowResizing="true" allowSorting="true" [pageSettings]='pageSettings'>
       <e-columns>
+        <ng-template #toolbarTemplate let-data>
+          <div class="flex justify-end border-1 rounded-t-md " style="background-color: #f9fafb;;">
+            @if(pendientes()){
+              <button class="mr-5 my-2 p-2 border font-bold border-slate-400  rounded-md  hover:bg-indigo-400 hover:text-white" (click)="tooglePendientes()">Ver Cerradas</button>
+            }@else{
+              <button class="mr-5  my-2 p-2 border font-bold border-slate-400  rounded-md  hover:bg-indigo-400 hover:text-white" (click)="tooglePendientes()">Ver Pendientes</button>
+            }                        
+          </div>
+          
+        </ng-template>
+        
         
         <e-column field='id' headerText='solicitud' width='80' >
           <ng-template #template let-data>
@@ -20,12 +24,13 @@
             
         </ng-template>
         </e-column>
-        <e-column field='solicita'  width='150' AutoFit ></e-column>
+        <e-column field='solicitante'  width='150' AutoFit ></e-column>
         <e-column field='op'  width='150' AutoFit ></e-column>
         
         <e-column field='estado' width='150'  ></e-column>
         <e-column field='componente'  width='150' ></e-column>
         <e-column field='cantidad' width='100'  ></e-column>
+        <e-column field='cantidadSurtida' headerText="surtido" width='100'  ></e-column>
         <e-column field='maquina' width='150'  ></e-column>
         <e-column field='fecha_registro' width='150'  >
           <ng-template #template let-data>

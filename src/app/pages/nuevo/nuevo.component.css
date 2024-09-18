@@ -25,6 +25,10 @@
   @apply flex h-11 text-center  w-full rounded-md border  text-xl  focus-visible:ring-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50
 }
 
+::ng-deep .form-select {
+  @apply flex h-11   w-full rounded-md border  text-xl  focus-visible:ring-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50
+}
+
 ::ng-deep .has-error label {
   @apply text-red-400
 }
@@ -40,7 +44,8 @@
 
 ::ng-deep .p-dropdown .p-inputtext {
   padding: 0.4rem 0.75rem;
-  @apply text-sm
+  @apply text-sm;
+  line-height: 1.75rem;
 }
 
 ::ng-deep .p-dropdown:focus {

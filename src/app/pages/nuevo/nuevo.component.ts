@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { firstValueFrom, interval, Subject, Subscription, switchMap } from 'rxjs';
+import { firstValueFrom, interval, single, Subject, Subscription, switchMap } from 'rxjs';
 
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -35,23 +35,17 @@ export class NuevoComponent implements OnInit, OnDestroy {
   public valorQuery: string = "";
   public today = computed(() => {
     const fecha = this._today();
-    
-    return new Date(fecha.getTime() + (2 * 60+1) * 60 * 1000);
-    
+
+    return new Date(fecha.getTime() + (2 * 60 + 1) * 60 * 1000);
+
   });
 
   public locale_es = locale_es;
-  public maquinas: Maquina[] = maquinas;
+  public maquinas = this.solicitudService.maquinas;
+
   public selectedOP: Orden | null = null;
-  
-   //{
-  //   op:'4646',
-  //   componente:'46',
-  //   cantidad: 1,
-  //   descripcion: "ds",
-  //   cantidadSurtida: 0,
-  //   porSurtir: 0
-  // };
+
+
 
   public solicitudForm = new FormGroup({
     op: new FormControl<string | null>(''),
@@ -75,7 +69,8 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
     const subscriptionCantidad = this.solicitudForm.get('cantidad')!.valueChanges.subscribe((cantidad) => {
       const opSelected = this.selectedOP!
-      const puedeCapturar = opSelected.cantidadSurtida + opSelected.porSurtir + (cantidad || 0) <= opSelected.cantidad
+      if (opSelected == null) return;
+      const puedeCapturar =   (cantidad || 0) <= opSelected.cantidad
       this.puedeCapturarCantidad.set(puedeCapturar);
     });
     const subscriptionFecha = this.solicitudForm.get('fecha_entrega')!.valueChanges.subscribe((fecha) => {
@@ -89,13 +84,14 @@ export class NuevoComponent implements OnInit, OnDestroy {
     this.subscriptions.push(subscriptionFecha);
     this.valorQuerySubject.pipe(
       switchMap(query => { return this.solicitudService.buscarOP(query) })
-    ).subscribe((ops) => {
+    ).subscribe((response) => {
       this.cargandoBusqueda.set(false);
-      this.OPsBusqueda.set(ops);
+      this.OPsBusqueda.set(response.ordenes);
     })
 
   }
   ngOnInit(): void {
+
     this.primeConfig.setTranslation(locale_es);
     this.solicitudForm.get('hora_entrega')!.addValidators(horaEntregaValidator(this.solicitudForm.get('fecha_entrega')!))
 
@@ -115,8 +111,12 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
   }
 
-  onSelect({ value }: any) {
-    this.selectedOP = value;
+  async onSelect({ value }: any) {
+    this.selectedOP = value!;
+
+    const { op, componente } = this.selectedOP!
+    const resp = await firstValueFrom(this.solicitudService.obtenerSurtido(op, componente));
+    this.selectedOP = { ...this.selectedOP!, cantidadSurtida: resp.cantidad };
     this.valorQuery = "";
   }
   closeDetail() {
@@ -132,7 +132,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
     return this.solicitudForm.get(nombre)!.invalid && (this.solicitudForm.get(nombre)!.dirty || this.solicitudForm.get(nombre)!.touched)
   }
 
- 
+
 
 
   async guardarSolicitud() {
@@ -142,25 +142,18 @@ export class NuevoComponent implements OnInit, OnDestroy {
       return;
     }
     const { fecha_entrega, hora_entrega, ...res } = this.solicitudForm.value;
+    const fechaISO = fecha_entrega!.toISOString();
+    const fechaFormateada = `${fechaISO.slice(0, 4)}-${fechaISO.slice(8, 10)}-${fechaISO.slice(5, 7)}`;
     const peticion = {
       ...res,
       op: this.selectedOP!.op,
-      solicita: 'Varela',
-      id: 5,
-      id_solicitate: 1,
-
-      componente: this.selectedOP!.componente,
-      maquina: this.maquinas.find(m => m.id === res.id_maquina)!.descripcion,
-      id_estado: 1,
-      estado: 'Por surtir',
-      fecha_registro: new Date(),
-
-      fecha_entrega: fecha_entrega!.toISOString().slice(0, 10) + ' ' + hora_entrega!.toTimeString().slice(0, 5)
+      id_solicitante: 1,
+      componente: this.selectedOP!.componente,      
+      fecha_entrega: `${fechaFormateada} ${hora_entrega!.toTimeString().slice(0, 5)}`
     }
-    this.guardando.set(true);
-    await firstValueFrom(this.solicitudService.agregarSolicitud(peticion));
+    this.guardando.set(true);    
+    await firstValueFrom(this.solicitudService.agregarSolicitud(peticion));    
     this.guardando.set(false);
-
     this.router.navigate(['/solicitudes']);
   }
 

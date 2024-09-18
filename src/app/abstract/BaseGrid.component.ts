@@ -24,12 +24,12 @@ export abstract class BaseGridComponent implements OnDestroy {
 
     protected iniciarResizeGrid(porcentaje: number) {
         if (window.innerHeight >=1000){
-            porcentaje = 0.20;
+            porcentaje = 0.23;
         }
         this.heightGrid = window.innerHeight - (window.innerHeight * porcentaje);
         const subs1 = this.windowService.ResizeHeight().subscribe(x => {
             if (window.innerHeight >=1000){
-                porcentaje = 0.20;
+                porcentaje = 0.23;
             }
             this.heightGrid = window.innerHeight - (window.innerHeight * porcentaje);
             this.dataBound();

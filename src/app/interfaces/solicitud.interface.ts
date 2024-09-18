@@ -1,8 +1,9 @@
 export interface Solicitud {
-    id: number;
+    id_solicitud: number;
     op: string;
-    solicita: string;
+    solicitante: string;
     id_solicitante: number;
+    cantidadSurtida: number;
     id_estado: number;
     estado: string;
     componente: string;
@@ -31,4 +32,12 @@ export interface Maquina {
 export interface ColumnSolicitud extends Solicitud {
     column: any,
     index: string
+  }
+
+
+  export interface PropsSurtido {
+    id_solicitud: number;
+    firma: string;
+    id_usuario: number;
+    cantidad: number;
   }

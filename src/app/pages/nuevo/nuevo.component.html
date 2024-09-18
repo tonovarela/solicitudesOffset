@@ -46,11 +46,10 @@
     <div class="rounded-lg border bg-card   w-full  3xl:w-1/2   mx-auto shadow-sm   ">
       <div class="">
         <div class="w-full ">
-          <div class="bg-white rounded-lg  relative pt-5">
-            <button (click)="closeDetail()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+          <div class="bg-white rounded-lg  relative pt-5">            
+            <button (click)="closeDetail()" class="absolute -top-4 -right-2 rounded-full bg-gray-200 hover:bg-gray-700  hover:text-white">              
+              <svg viewBox="0 0 24 24" class="w-9 h-9 " 
+               xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 17L16.8995 7.10051" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M7 7.00001L16.8995 16.8995" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </button>
                
             <div class="grid grid-cols-2 sm:grid-cols-3 p-3    sm:text-center">
@@ -95,13 +94,13 @@
               </div>
             </div> -->
     
-            <div class="grid grid-cols-3 text-center bg-slate-100/40 rounded p-3 ">
+            <div class="grid grid-cols-2 text-center bg-slate-100/40 rounded p-3 ">
               <div class="text-gray-800 text-xl ">Metrics </div>
-              <div class="text-gray-800 text-xl ">Por surtir </div>
-              <div class="text-gray-800 text-xl ">Surtido </div>
+              <!-- <div class="text-gray-800 text-xl ">Por surtir </div> -->
+              <!-- <div class="text-gray-800 text-xl ">Surtido </div> -->
               <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.cantidad }}</div>
-              <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.porSurtir }}</div>
-              <div class="text-gray-600 text-4xl font-semibold">{{ selectedOP!.cantidadSurtida }}</div>
+              <!-- <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.porSurtir }}</div> -->
+              <!-- <div class="text-gray-600 text-4xl font-semibold">{{ selectedOP!.cantidadSurtida }}</div> -->
             </div>        
           </div>
     
@@ -125,9 +124,9 @@
                 for="maquina">
                 Máquina
               </label>
-              <p-dropdown [options]="maquinas"
+              <p-dropdown [options]="maquinas()"
               formControlName="id_maquina"
-                styleClass="form-control "
+                styleClass="form-select "
                 optionLabel="descripcion"
                 optionValue="id"
                  placeholder="Seleccione una máquina" />
@@ -174,9 +173,8 @@
           </div>
           
 
-          <div class="flex  justify-between">            
-            <button [disabled]="guardando()" class="bg-slate-400  text-white p-2 mt-5  rounded-md" routerLink="/solicitudes">Regresar</button>
-            <button [disabled]="guardando()" class="bg-indigo-500 mt-5 text-white rounded-md p-2 disabled:bg-indigo-500/50" (click)="guardarSolicitud()">
+          <div class="flex  justify-end">                        
+            <button [disabled]="guardando()" class="bg-indigo-500 mt-5  text-white rounded-md px-12 py-2 disabled:bg-indigo-500/50" (click)="guardarSolicitud()">
               <i *ngIf="guardando()" class="fas fa-spinner fa-spin"></i>
               Guardar</button>
           </div>  

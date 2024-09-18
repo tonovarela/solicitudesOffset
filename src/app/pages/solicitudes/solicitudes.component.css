@@ -1,8 +1,3 @@
-::ng-deep .e-gridheader{
-    
-    border-radius: 5px 5px 0px 0px;
-}
-    
 
 ::ng-deep .e-grid{
     border:none;

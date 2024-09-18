@@ -90,9 +90,9 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2   bg-slate-100/40 rounded px-9 py-3  ">
                 <div class="text-gray-800 flex justify-start gap-4  "><label class="text-lg font-semibold">Cantidad</label> {{
-                    SolicitudPorSurtir()?.cantidad }}</div>
+                    SolicitudPorSurtir()!.cantidad - SolicitudPorSurtir()!.cantidadSurtida }}</div>
                 <div class="text-gray-800 flex justify-start gap-4"><label class="text-lg font-semibold">Solicita</label> {{
-                    SolicitudPorSurtir()?.solicita }}</div>
+                    SolicitudPorSurtir()?.solicitante }}</div>
                 <div class="text-gray-800 flex justify-start gap-4  "><label class="text-lg font-semibold">Máquina</label> {{
                     SolicitudPorSurtir()?.maquina }}</div>
                 <div class="text-gray-800 flex justify-start gap-4 "><label class="text-lg font-semibold">Entrega</label> {{
@@ -115,7 +115,7 @@
                    />
                    <button class="bg-green-500 text-white text-lg font-semibold px-3 py-2 rounded-lg  w-full sm:w-48
                    disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
-                   [disabled]="cantidadSurtir <= 0 || cantidadSurtir > SolicitudPorSurtir()!.cantidad"
+                   [disabled]="cantidadSurtir <= 0 || cantidadSurtir > (SolicitudPorSurtir()!.cantidad )"
                      (click)="surtir()"
                     >Surtir</button>            
         </div>
