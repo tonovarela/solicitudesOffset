@@ -7,20 +7,20 @@
     <e-columns>
       <ng-template #toolbarTemplate let-data>
         <div class="flex justify-end border-1 rounded-t-md " style="background-color: #f9fafb;;">
-          @if(pendientes()){
+          
           <button
-            class="mr-5 my-2 p-2 border font-bold border-slate-400  rounded-md  hover:bg-indigo-400 hover:text-white"
-            (click)="tooglePendientes()">Ver Cerradas</button>
-          }@else{
-          <button
-            class="mr-5  my-2 p-2 border font-bold border-slate-400  rounded-md  hover:bg-indigo-400 hover:text-white"
-            (click)="tooglePendientes()">Ver Pendientes</button>
-          }
+            class="mr-5 my-2 p-2 border font-bold border-slate-400 text-xs rounded-md  hover:bg-indigo-700 hover:text-white"
+            (click)="tooglePendientes()">
+            @if(pendientes()){
+            Ver Cerradas
+            }@else{
+              Ver Pendientes
+            }
+          </button>
+          
         </div>
 
       </ng-template>
-
-
 
       <e-column headerText='' width='80'>
         <ng-template #template let-data>
@@ -88,7 +88,6 @@
       </e-column>
       <e-column field='solicitante' width='120' AutoFit></e-column>
       <e-column field='op' width='100' AutoFit></e-column>
-
       <e-column field='estado' width='100'>
         <ng-template #template let-data>
           @if(data.id_estado==1){
@@ -150,11 +149,9 @@
       </e-column>
     </e-columns>
     <ng-template #emptyRecordTemplate>
-      <div class='emptyRecordTemplate'>
-          <!-- <img [src] = "imgUrl" class="e-emptyRecord" alt="No record"> -->
-          <span>There is no data available to display at the moment.</span>
-      </div>
-  </ng-template>
+      custom text
+    </ng-template>
+    
   </ejs-grid>
 
 </div>

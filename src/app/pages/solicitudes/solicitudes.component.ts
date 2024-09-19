@@ -23,11 +23,12 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
   surtidoService = inject(SurtidoService);
   uiService = inject(UiService);
   solicitudes = computed(() => this.solicitudService.solicitudes());
+  cargandoSolicitudes = computed(() => this.solicitudService.cargandoSolicitudes());
   pendientes = computed(() => this.uiService.pendientes());
   firmas = signal<Firma[]>([]);
   cargandoFirmas= signal(false);
 
-  effectRef:EffectRef | null = null;
+  effectRef:EffectRef[]=[];
   modalCancelacion = false;
   modalFirma= false;
   motivoCancelacion = '';
@@ -38,9 +39,24 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
   protected minusHeight = 0.2;
   constructor() {
     super();
-    this.effectRef=effect(() => {
+    const effectCarga=effect(() => {
       this.solicitudService.cargarSolicitudes(this.uiService.pendientes());
     });
+    const effectLoader=effect(() => {
+      try {
+        if (this.solicitudes().length ==0 && !this.cargandoSolicitudes() ) {                
+          (this.grid.localeObj as any).localeStrings.EmptyRecord = `        
+          <div class="w-full h-[20vh] mt-5 flex sm:justify-center  justify-start ">
+              <p class="text-slate-500 text-3xl">Sin registros</p>                
+          </div>        
+        `       
+        }
+      }catch(e){
+      }
+      
+    });
+    this.effectRef.push(effectCarga,effectLoader
+    );    
   }
   ngOnInit(): void {
     this.autoFitColumns = false;    
@@ -50,7 +66,7 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.effectRef?.destroy();
+    this.effectRef.forEach(e=>e.destroy());
   }
  
 

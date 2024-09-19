@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Maquina, Solicitud } from '../interfaces/solicitud.interface';
 import { environment } from '@env/environment.development';
 import { ResponseBuscarOrden, ResponseFirmasSurtido, ResponseListadoSolicitud, ResponseListarMaquinas, ResponseObtenerSurtido } from '@interfaces/response.interface';
+import { tap } from 'rxjs';
 
 
 @Injectable({
@@ -14,7 +15,9 @@ export class SolicitudService {
   private _solicitudes = signal<Solicitud[]>([]);
   private readonly URL = environment.apiUrl;
   solicitudes = computed(() => this._solicitudes()  );
-  _maquinas = signal<Maquina[]>([]);
+  cargandoSolicitudes = computed(() => this._cargandoSolicitudes());
+  private _cargandoSolicitudes = signal(false);
+  private _maquinas = signal<Maquina[]>([]);
 
   constructor() {
     this.cargarSolicitudes();
@@ -23,7 +26,13 @@ export class SolicitudService {
 
   maquinas= computed  (() => this._maquinas() );  
   cargarSolicitudes(pendientes: boolean = false) {     
-    this.httpClient.get<ResponseListadoSolicitud>(`${this.URL}/api/solicitud?pendientes=${pendientes}`).subscribe(({solicitudes})=>this._solicitudes.set(solicitudes));       
+    
+    this.httpClient.get<ResponseListadoSolicitud>(`${this.URL}/api/solicitud?pendientes=${pendientes}`)
+    .pipe(tap(()=>this._cargandoSolicitudes.set(true)))    
+    .subscribe(({solicitudes})=>{
+      this._solicitudes.set(solicitudes)
+      this._cargandoSolicitudes.set(false);
+    });       
    }
 
   agregarSolicitud(solicitud: any) {

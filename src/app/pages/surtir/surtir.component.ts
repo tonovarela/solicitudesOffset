@@ -3,9 +3,7 @@ import { SurtidoService } from '../../services/surtido.service';
 import { Router } from '@angular/router';
 import { PropsSurtido } from '@interfaces/solicitud.interface';
 import { firstValueFrom } from 'rxjs';
-import { SolicitudService } from '@services/solicitud.service';
-
-
+import { solicitudVacia } from 'src/app/data/data';
 
 @Component({
   selector: 'app-surtir',
@@ -13,21 +11,25 @@ import { SolicitudService } from '@services/solicitud.service';
   styleUrl: './surtir.component.css'
 })
 export class SurtirComponent implements OnInit {
-
-  private surtidoService =inject(SurtidoService);
-  //private solicitudService = inject(SolicitudService);
+  
+  private surtidoService =inject(SurtidoService);  
   public firmar = signal(false);
-  public estaRegistrando = signal(false);
+
+  public estaRegistrando = signal(false);  
+  solicitud= computed(() => this.surtidoService.SolicitudPorSurtir() || solicitudVacia);
+  cantidad = computed(() => (this.solicitud().cantidad - this.solicitud().cantidadSurtida ));
+  maxPorSurtir= computed(() =>    Number(this.solicitud()?.cantidad || 0) - Number(this.solicitud()?.cantidadSurtida || 0)  + 100);  
+
+  cantidadSurtir = 0;  
   router = inject(Router);
-  cantidadSurtir = 0;
-  ngOnInit(): void {
-    
+  
+  ngOnInit(): void {  
     if (!this.surtidoService.existeSolicitudPorSurtir() ) {
       this.router.navigate(['/solicitudes']);
     }
   }
-  MaxPorSurtir= computed(() =>    Number(this.SolicitudPorSurtir()?.cantidad || 0) - Number(this.SolicitudPorSurtir()?.cantidadSurtida || 0)  + 100);
-
+  
+  
 
   surtir(){
     if (this.estaRegistrando()) {
@@ -36,11 +38,10 @@ export class SurtirComponent implements OnInit {
     this.firmar.set(true);
   }
 
-  SolicitudPorSurtir= computed(() => this.surtidoService.SolicitudPorSurtir());
-  async guardaFirma(base64: string) {
   
+  async guardaFirma(base64: string) {  
     const surtido:PropsSurtido  = {
-      id_solicitud: this.SolicitudPorSurtir()?.id_solicitud!,      
+      id_solicitud: this.solicitud()?.id_solicitud!,      
       firma:base64.split(',')[1],
       id_usuario:1,
       cantidad: this.cantidadSurtir,      
