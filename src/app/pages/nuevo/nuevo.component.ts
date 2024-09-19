@@ -4,15 +4,16 @@ import { firstValueFrom, interval, single, Subject, Subscription, switchMap } fr
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 
 
-import { maquinas } from '../../data/data';
+
 
 import { SolicitudService } from '@services/solicitud.service';
-import { Maquina, Orden } from '@interfaces/solicitud.interface';
+import {  Orden } from '@interfaces/solicitud.interface';
 import { locale_es } from '@conf/calendar-es';
 import { horaEntregaValidator } from 'src/app/utils/validators';
+import { UiService } from '../../services/ui.service';
 
 
 
@@ -21,13 +22,16 @@ import { horaEntregaValidator } from 'src/app/utils/validators';
   selector: 'app-nuevo',
   templateUrl: './nuevo.component.html',
   styleUrl: './nuevo.component.css',
+  providers:[MessageService]
 
 })
 export class NuevoComponent implements OnInit, OnDestroy {
 
-  primeConfig = inject(PrimeNGConfig);
+  private primeConfig = inject(PrimeNGConfig);
   private solicitudService = inject(SolicitudService);
   private router = inject(Router);
+  
+  private messageService = inject(MessageService);
 
 
   public _today = signal(new Date());
@@ -70,7 +74,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
     const subscriptionCantidad = this.solicitudForm.get('cantidad')!.valueChanges.subscribe((cantidad) => {
       const opSelected = this.selectedOP!
       if (opSelected == null) return;
-      const puedeCapturar =   (cantidad || 0) <= opSelected.cantidad
+      const puedeCapturar =   (cantidad || 0) <= (opSelected.cantidad - opSelected.cantidadSurtida);
       this.puedeCapturarCantidad.set(puedeCapturar);
     });
     const subscriptionFecha = this.solicitudForm.get('fecha_entrega')!.valueChanges.subscribe((fecha) => {
@@ -111,9 +115,8 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
   }
 
-  async onSelect({ value }: any) {
+   async onSelect({ value }: any) {
     this.selectedOP = value!;
-
     const { op, componente } = this.selectedOP!
     const resp = await firstValueFrom(this.solicitudService.obtenerSurtido(op, componente));
     this.selectedOP = { ...this.selectedOP!, cantidadSurtida: resp.cantidad };
@@ -136,6 +139,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
 
   async guardarSolicitud() {
+    this.messageService.clear();
     this.solicitudForm.updateValueAndValidity({ onlySelf: false, emitEvent: true });
     this.solicitudForm.markAllAsTouched();
     if (!this.solicitudForm.valid || !this.puedeCapturarCantidad()) {
@@ -147,14 +151,27 @@ export class NuevoComponent implements OnInit, OnDestroy {
     const peticion = {
       ...res,
       op: this.selectedOP!.op,
+      descripcion: this.selectedOP!.descripcion,  
       id_solicitante: 1,
       componente: this.selectedOP!.componente,      
       fecha_entrega: `${fechaFormateada} ${hora_entrega!.toTimeString().slice(0, 5)}`
     }
     this.guardando.set(true);    
-    await firstValueFrom(this.solicitudService.agregarSolicitud(peticion));    
-    this.guardando.set(false);
-    this.router.navigate(['/solicitudes']);
+    try {
+      await firstValueFrom(this.solicitudService.agregarSolicitud(peticion));    
+      this.guardando.set(false);
+      this.router.navigate(['/solicitudes']);
+    }catch(e:any){
+      
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: e.error.mensaje,key:'c',life:2000 });      
+      setTimeout(() => {
+      this.guardando.set(false);
+      }, 2000);
+    }
+
+    
+    
+    
   }
 
 

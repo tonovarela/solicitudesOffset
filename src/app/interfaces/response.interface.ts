@@ -1,4 +1,4 @@
-import { Maquina, Orden, Solicitud } from "./solicitud.interface";
+import { Firma, Maquina, Orden, Solicitud } from "./solicitud.interface";
 
 interface Response {
     ok:boolean
@@ -17,4 +17,8 @@ export interface ResponseObtenerSurtido extends Response {
 }
 export interface ResponseListadoSolicitud extends Response {
     solicitudes: Solicitud[];
+}
+
+export interface ResponseFirmasSurtido extends Response {
+    firmas:Firma[]
 }

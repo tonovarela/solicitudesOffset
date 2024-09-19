@@ -1,6 +1,7 @@
 export interface Solicitud {
     id_solicitud: number;
     op: string;
+    descripcion: string;
     solicitante: string;
     id_solicitante: number;
     cantidadSurtida: number;
@@ -9,10 +10,11 @@ export interface Solicitud {
     componente: string;
     cantidad: number;
     id_maquina:string;
-    maquina: string;
+    maquina: string;    
     comentarios: string;
     fecha_registro: Date;
     fecha_entrega: Date;
+    motivoCancelacion?: string;
 }
 
 export interface Orden {
@@ -40,4 +42,14 @@ export interface ColumnSolicitud extends Solicitud {
     firma: string;
     id_usuario: number;
     cantidad: number;
+  }
+
+  export interface Firma {
+    id: number;    
+    usuario: string;
+    personal: string;
+    fecha_registro: Date;
+    firma: string;
+    cantidad: number;   
+
   }

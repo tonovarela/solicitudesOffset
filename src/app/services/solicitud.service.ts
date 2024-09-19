@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Maquina, Solicitud } from '../interfaces/solicitud.interface';
 import { environment } from '@env/environment.development';
-import { ResponseBuscarOrden, ResponseListadoSolicitud, ResponseListarMaquinas, ResponseObtenerSurtido } from '@interfaces/response.interface';
+import { ResponseBuscarOrden, ResponseFirmasSurtido, ResponseListadoSolicitud, ResponseListarMaquinas, ResponseObtenerSurtido } from '@interfaces/response.interface';
 
 
 @Injectable({
@@ -37,6 +37,14 @@ export class SolicitudService {
 
   obtenerSurtido(op:string,componente:string) {
     return this.httpClient.get<ResponseObtenerSurtido>(`${this.URL}/api/surtido/op/${op}/componente/${componente}`);
+  }
+
+  cancelarSolicitud(id_solicitud: number, motivo: string) {
+    return this.httpClient.put(this.URL + '/api/solicitud/cancelar', { cancelacion:{id_solicitud, motivo}});
+  }
+
+  obtenerFirmasSurtido(id_solicitud:number) {
+    return this.httpClient.get<ResponseFirmasSurtido>(`${this.URL}/api/surtido/${id_solicitud}/firmas`);
   }
 
   

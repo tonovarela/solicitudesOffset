@@ -16,7 +16,7 @@ export class SurtidoService {
  
   constructor() { }
 
-  setSolicitudPorSurtir(solicitud: Solicitud) {
+  setSolicitudPorSurtir(solicitud: Solicitud) {    
     this.solicitudPorSurtir.set(solicitud);
   }
 

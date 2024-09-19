@@ -15,16 +15,18 @@ import { SolicitudService } from '@services/solicitud.service';
 export class SurtirComponent implements OnInit {
 
   private surtidoService =inject(SurtidoService);
-  private solicitudService = inject(SolicitudService);
+  //private solicitudService = inject(SolicitudService);
   public firmar = signal(false);
   public estaRegistrando = signal(false);
   router = inject(Router);
   cantidadSurtir = 0;
   ngOnInit(): void {
+    
     if (!this.surtidoService.existeSolicitudPorSurtir() ) {
       this.router.navigate(['/solicitudes']);
     }
   }
+  MaxPorSurtir= computed(() =>    Number(this.SolicitudPorSurtir()?.cantidad || 0) - Number(this.SolicitudPorSurtir()?.cantidadSurtida || 0)  + 100);
 
 
   surtir(){

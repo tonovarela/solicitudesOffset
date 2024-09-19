@@ -29,17 +29,14 @@
               </div>
               <div class="flex flex-col md:flex-row  items-center justify-between ">
                 <p class="text-gray-600 font-regular text-sm">{{op.descripcion}}</p>
-                <h5>{{op.cantidad}} piezas</h5>
+                <h5>{{op.cantidad | number}} piezas</h5>
               </div>
             </div>
           </div>
         </ng-template>
       </p-autoComplete>
-
-    </div>
-  
+    </div>  
   </div>
-
   
   @if(selectedOP){
   <div class="flex flex-col sm:flex-row ">
@@ -94,13 +91,20 @@
               </div>
             </div> -->
     
-            <div class="grid grid-cols-2 text-center bg-slate-100/40 rounded p-3 ">
+            <div class="grid grid-cols-3 text-center bg-slate-100/40 rounded p-3 ">
               <div class="text-gray-800 text-xl ">Metrics </div>
-              <!-- <div class="text-gray-800 text-xl ">Por surtir </div> -->
-              <!-- <div class="text-gray-800 text-xl ">Surtido </div> -->
-              <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.cantidad }}</div>
-              <!-- <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.porSurtir }}</div> -->
-              <!-- <div class="text-gray-600 text-4xl font-semibold">{{ selectedOP!.cantidadSurtida }}</div> -->
+              <div class="text-gray-800 text-lg ">Max a solicitar </div>
+              <div class="text-gray-800 text-xl ">Surtido </div>
+              <div class="text-gray-600  text-4xl font-semibold  ">{{ selectedOP!.cantidad  | number}}</div>
+              <div class="text-gray-600  text-4xl font-semibold  ">
+                @if((selectedOP!.cantidad - selectedOP!.cantidadSurtida)>0){
+                  {{ (selectedOP!.cantidad - selectedOP!.cantidadSurtida) | number }}
+                }@else{
+                  0
+                }
+                
+              </div>
+              <div class="text-gray-600 text-4xl font-semibold">{{ selectedOP!.cantidadSurtida  | number}}</div>
             </div>        
           </div>
     
@@ -170,30 +174,18 @@
               class="flex h-20 w-full rounded-md border border-input bg-background px-3 py-1  ring-offset-background  placeholder:text-muted-foreground 
           focus-visible:ring-indigo-600
           focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
-          </div>
-          
-
+          </div>        
           <div class="flex  justify-end">                        
             <button [disabled]="guardando()" class="bg-indigo-500 mt-5  text-white rounded-md px-12 py-2 disabled:bg-indigo-500/50" (click)="guardarSolicitud()">
               <i *ngIf="guardando()" class="fas fa-spinner fa-spin"></i>
               Guardar</button>
           </div>  
-
         </form>
       </div>
     </div>
-    
-   
-    
   </div>
-
-
-
-  }
-
-
-
-  
-
-  
+  }  
 </div>
+
+
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" position="center" key="c" />
