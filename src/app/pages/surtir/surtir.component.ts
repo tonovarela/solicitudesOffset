@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PropsSurtido } from '@interfaces/solicitud.interface';
 import { firstValueFrom } from 'rxjs';
 import { solicitudVacia } from 'src/app/data/data';
+import { UsuarioService } from '@services/usuario.service';
 
 @Component({
   selector: 'app-surtir',
@@ -13,6 +14,7 @@ import { solicitudVacia } from 'src/app/data/data';
 export class SurtirComponent implements OnInit {
   
   private surtidoService =inject(SurtidoService);  
+  private usuarioService = inject(UsuarioService);
   public firmar = signal(false);
 
   public estaRegistrando = signal(false);  
@@ -40,10 +42,11 @@ export class SurtirComponent implements OnInit {
 
   
   async guardaFirma(base64: string) {  
+    const usuario = this.usuarioService.usuarioLogueado();
     const surtido:PropsSurtido  = {
       id_solicitud: this.solicitud()?.id_solicitud!,      
       firma:base64.split(',')[1],
-      id_usuario:1,
+      id_usuario:usuario?.id,
       cantidad: this.cantidadSurtir,      
     };
     await firstValueFrom(this.surtidoService.registrar(surtido));    

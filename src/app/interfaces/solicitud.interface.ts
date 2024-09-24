@@ -40,7 +40,7 @@ export interface ColumnSolicitud extends Solicitud {
   export interface PropsSurtido {
     id_solicitud: number;
     firma: string;
-    id_usuario: number;
+    id_usuario: string;
     cantidad: number;
   }
 

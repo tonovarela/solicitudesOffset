@@ -21,7 +21,7 @@ export class SolicitudService {
 
   constructor() {
     this.cargarSolicitudes();
-    this.httpClient.get<ResponseListarMaquinas>(this.URL + '/api/maquinas').subscribe(({maquinas})=>this._maquinas.set(maquinas))
+    this.cargarMaquinas();
   }
 
   maquinas= computed  (() => this._maquinas() );  
@@ -33,6 +33,10 @@ export class SolicitudService {
       this._solicitudes.set(solicitudes)
       this._cargandoSolicitudes.set(false);
     });       
+   }
+
+   cargarMaquinas() {
+    this.httpClient.get<ResponseListarMaquinas>(this.URL + '/api/maquinas').subscribe(({maquinas})=>this._maquinas.set(maquinas))
    }
 
   agregarSolicitud(solicitud: any) {
@@ -48,13 +52,15 @@ export class SolicitudService {
     return this.httpClient.get<ResponseObtenerSurtido>(`${this.URL}/api/surtido/op/${op}/componente/${componente}`);
   }
 
-  cancelarSolicitud(id_solicitud: number, motivo: string) {
-    return this.httpClient.put(this.URL + '/api/solicitud/cancelar', { cancelacion:{id_solicitud, motivo}});
+  cancelarSolicitud(id_solicitud: number, motivo: string,id_usuario:string) {
+    return this.httpClient.put(this.URL + '/api/solicitud/cancelar', { cancelacion:{id_solicitud, motivo,id_usuario}});
   }
 
   obtenerFirmasSurtido(id_solicitud:number) {
     return this.httpClient.get<ResponseFirmasSurtido>(`${this.URL}/api/surtido/${id_solicitud}/firmas`);
   }
+
+  
 
   
 

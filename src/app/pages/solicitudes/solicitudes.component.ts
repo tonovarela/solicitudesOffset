@@ -10,6 +10,7 @@ import { SolicitudService } from '@services/solicitud.service';
 import { SurtidoService } from '@services/surtido.service';
 import { UiService } from '@services/ui.service';
 import { firstValueFrom } from 'rxjs';
+import { UsuarioService } from '@services/usuario.service';
 
 @Component({
   selector: 'app-solicitudes',
@@ -22,6 +23,7 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
   solicitudService = inject(SolicitudService);
   surtidoService = inject(SurtidoService);
   uiService = inject(UiService);
+  usuarioService = inject(UsuarioService)
   solicitudes = computed(() => this.solicitudService.solicitudes());
   cargandoSolicitudes = computed(() => this.solicitudService.cargandoSolicitudes());
   pendientes = computed(() => this.uiService.pendientes());
@@ -96,8 +98,9 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
       return;
     };    
     const id_solicitud = this.solicitudPorCancelar?.id_solicitud!;
+    const usuario =this.usuarioService.usuarioLogueado();
     this.cancelandoSolicitud = true;
-    await firstValueFrom(this.solicitudService.cancelarSolicitud(id_solicitud, this.motivoCancelacion))
+    await firstValueFrom(this.solicitudService.cancelarSolicitud(id_solicitud, this.motivoCancelacion,usuario.id))
     this.cancelandoSolicitud = false;
     this.solicitudService.cargarSolicitudes(this.uiService.pendientes());
     
@@ -119,5 +122,7 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
     this.cargandoFirmas.set(false);
     
   }
+
+  
 
 }

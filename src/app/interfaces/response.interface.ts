@@ -1,4 +1,5 @@
 import { Firma, Maquina, Orden, Solicitud } from "./solicitud.interface";
+import { Rol } from "./usuario.interface";
 
 interface Response {
     ok:boolean
@@ -21,4 +22,19 @@ export interface ResponseListadoSolicitud extends Response {
 
 export interface ResponseFirmasSurtido extends Response {
     firmas:Firma[]
+}
+
+
+
+export interface ResponseAuth  extends Response {    
+    mensaje: string;
+    usuario: UsuarioResponse;
+}
+
+export interface UsuarioResponse {
+    rol:     Rol;
+    id: string;
+    personal:  string;
+    nombre:     string;
+    login:      string;
 }

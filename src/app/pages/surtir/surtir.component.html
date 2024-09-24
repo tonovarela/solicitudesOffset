@@ -9,7 +9,7 @@
                 <span class="hidden sm:inline text-xs">Regresar</span>
             </button>
             @if(solicitud().id_estado != 1){
-            <div class="absolute top-0 right-0 font-extrabold text-white px-4 py-1 rounded-md" [class.bg-pink-500]="solicitud().id_estado! ==3"
+            <div class="absolute top-0 right-0 font-extrabold text-white px-4 py-1 rounded-tr-md" [class.bg-pink-500]="solicitud().id_estado! ==3"
             [class.bg-gray-500]="solicitud().id_estado! ==2">
             {{solicitud().estado}}
             </div>

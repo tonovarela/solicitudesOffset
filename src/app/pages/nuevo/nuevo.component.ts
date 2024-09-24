@@ -1,20 +1,15 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { firstValueFrom, interval, single, Subject, Subscription, switchMap } from 'rxjs';
-
+import { firstValueFrom, interval,  Subject, Subscription, switchMap } from 'rxjs';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
 
-
-
-
 import { SolicitudService } from '@services/solicitud.service';
 import {  Orden } from '@interfaces/solicitud.interface';
 import { locale_es } from '@conf/calendar-es';
 import { horaEntregaValidator } from 'src/app/utils/validators';
-import { UiService } from '../../services/ui.service';
-
+import { UsuarioService } from '@services/usuario.service';
 
 
 
@@ -29,6 +24,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
   private primeConfig = inject(PrimeNGConfig);
   private solicitudService = inject(SolicitudService);
+  private usuarioService= inject(UsuarioService);
   private router = inject(Router);
   
   private messageService = inject(MessageService);
@@ -39,7 +35,6 @@ export class NuevoComponent implements OnInit, OnDestroy {
   public valorQuery: string = "";
   public today = computed(() => {
     const fecha = this._today();
-
     return new Date(fecha.getTime() + (2 * 60 + 1) * 60 * 1000);
 
   });
@@ -95,11 +90,8 @@ export class NuevoComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit(): void {
-
     this.primeConfig.setTranslation(locale_es);
     this.solicitudForm.get('hora_entrega')!.addValidators(horaEntregaValidator(this.solicitudForm.get('fecha_entrega')!))
-
-
   }
   ngOnDestroy(): void {
     this.subscriptions?.forEach(s => s.unsubscribe());
@@ -118,6 +110,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
    async onSelect({ value }: any) {
     this.selectedOP = value!;
     const { op, componente } = this.selectedOP!
+    this.solicitudService.cargarMaquinas();
     const resp = await firstValueFrom(this.solicitudService.obtenerSurtido(op, componente));
     this.selectedOP = { ...this.selectedOP!, cantidadSurtida: resp.cantidad };
     this.valorQuery = "";
@@ -146,13 +139,14 @@ export class NuevoComponent implements OnInit, OnDestroy {
       return;
     }
     const { fecha_entrega, hora_entrega, ...res } = this.solicitudForm.value;
+    const usuario = this.usuarioService.usuarioLogueado();
     const fechaISO = fecha_entrega!.toISOString();
     const fechaFormateada = `${fechaISO.slice(0, 4)}-${fechaISO.slice(8, 10)}-${fechaISO.slice(5, 7)}`;
     const peticion = {
       ...res,
       op: this.selectedOP!.op,
       descripcion: this.selectedOP!.descripcion,  
-      id_solicitante: 1,
+      id_solicitante: usuario.id,
       componente: this.selectedOP!.componente,      
       fecha_entrega: `${fechaFormateada} ${hora_entrega!.toTimeString().slice(0, 5)}`
     }
@@ -164,6 +158,7 @@ export class NuevoComponent implements OnInit, OnDestroy {
     }catch(e:any){
       
       this.messageService.add({ severity: 'error', summary: 'Error', detail: e.error.mensaje,key:'c',life:2000 });      
+      this.solicitudForm.reset();
       setTimeout(() => {
       this.guardando.set(false);
       }, 2000);
