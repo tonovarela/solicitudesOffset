@@ -4,7 +4,7 @@ import { StatusLogin } from '@interfaces/usuario.interface';
 import { UsuarioService } from '@services/usuario.service';
 
 
-declare var cargandoPlugins: any
+//declare var cargandoPlugins: any
 
 @Component({
   selector: 'app-root',
@@ -73,7 +73,7 @@ export class AppComponent   implements OnInit,AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    cargandoPlugins();
+    //cargandoPlugins();
   }
   
 }
