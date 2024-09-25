@@ -27,7 +27,7 @@ export class AppComponent   implements OnInit,AfterViewInit {
           break;
           
         case StatusLogin.ERROR:                            
-          this.salirApp();
+          //this.salirApp();
           break;
       }
 
@@ -48,7 +48,7 @@ export class AppComponent   implements OnInit,AfterViewInit {
 
   async verificarLogin() {
     const user = localStorage.getItem("User") ;
-    const password = localStorage.getItem("Pass") ;                
+    const password = localStorage.getItem("Pass");                
     
     this.usuarioService.statusLogin.set(StatusLogin.INITIAL);      
     
@@ -62,10 +62,10 @@ export class AppComponent   implements OnInit,AfterViewInit {
     }        
     try { 
       this.usuarioService.statusLogin.set(StatusLogin.PROCESSING);         
-       await this.usuarioService.login(user, password);
-       
+       await this.usuarioService.login(user, password);       
        this.usuarioService.statusLogin.set(StatusLogin.LOGGED);
-    } catch (error) {      
+    } catch (error) { 
+      
       this.usuarioService.statusLogin.set(StatusLogin.ERROR);
     }
 
