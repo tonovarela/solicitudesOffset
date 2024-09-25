@@ -26,8 +26,7 @@ export class AppComponent   implements OnInit,AfterViewInit {
           this.salirApp();
           break;
           
-        case StatusLogin.ERROR:          
-          //this.uiService.mostrarAlertaError(this.appName, "Login incorrecto");
+        case StatusLogin.ERROR:                            
           this.salirApp();
           break;
       }
@@ -48,21 +47,19 @@ export class AppComponent   implements OnInit,AfterViewInit {
 
 
   async verificarLogin() {
-    const user = localStorage.getItem("User") || 'mestelles';
-    const password = localStorage.getItem("Pass") || '54321';                
+    const user = localStorage.getItem("User") ;
+    const password = localStorage.getItem("Pass") ;                
     
     this.usuarioService.statusLogin.set(StatusLogin.INITIAL);      
     
-    // if (!environment.production){
-    //     this.usuarioService.setUsuarioDesarrollo();        
-    //     console.log({user,password});
-    //     return;
-    // }    
-    // if (!(user != null && password != null)) {      
-    //   this.usuarioService.statusLogin.set(StatusLogin.ERROR);      
-    //   return;
-    // }    
-    
+    if (!environment.production){
+        this.usuarioService.setUsuarioDesarrollo();                
+        return;
+    }    
+    if (!(user != null && password != null)) {      
+      this.usuarioService.statusLogin.set(StatusLogin.ERROR);      
+      return;
+    }        
     try { 
       this.usuarioService.statusLogin.set(StatusLogin.PROCESSING);         
        await this.usuarioService.login(user, password);

@@ -38,7 +38,7 @@ export class UsuarioService {
   }
 
   logout() {    
-    const esProduccion = environment.production;
+    const esProduccion = environment.production;    
     if (esProduccion) {
       window.location.href = "/litoapps";
       localStorage.removeItem("User");
