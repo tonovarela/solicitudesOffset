@@ -20,7 +20,7 @@ export class SurtirComponent implements OnInit {
   public estaRegistrando = signal(false);  
   solicitud= computed(() => this.surtidoService.SolicitudPorSurtir() || solicitudVacia);
   cantidad = computed(() => (this.solicitud().cantidad - this.solicitud().cantidadSurtida ));
-  maxPorSurtir= computed(() =>    Number(this.solicitud()?.cantidad || 0) - Number(this.solicitud()?.cantidadSurtida || 0)  + 100);  
+  maxPorSurtir= computed(() =>    Number(this.solicitud()?.cantidad || 0) - Number(this.solicitud()?.cantidadSurtida || 0)  + 250);  
 
   cantidadSurtir = 0;  
   router = inject(Router);
