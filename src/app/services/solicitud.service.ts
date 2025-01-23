@@ -19,14 +19,13 @@ export class SolicitudService {
   private _cargandoSolicitudes = signal(false);
   private _maquinas = signal<Maquina[]>([]);
 
-  constructor() {
-    this.cargarSolicitudes();
+  constructor() {    
     this.cargarMaquinas();
   }
 
   maquinas= computed  (() => this._maquinas() );  
   cargarSolicitudes(pendientes: boolean = false) {     
-    
+    console.log("cargarSolicitudes", pendientes);
     this.httpClient.get<ResponseListadoSolicitud>(`${this.URL}/api/solicitud?pendientes=${pendientes}`)
     .pipe(tap(()=>this._cargandoSolicitudes.set(true)))    
     .subscribe(({solicitudes})=>{

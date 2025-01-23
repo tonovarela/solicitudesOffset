@@ -36,13 +36,13 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
   motivoCancelacion = '';
   solicitudPorCancelar: Solicitud | null = null;
   cancelandoSolicitud = false;
-
-
   protected minusHeight = 0.2;
+
   constructor() {
     super();
     const effectCarga=effect(() => {
-      this.solicitudService.cargarSolicitudes(this.uiService.pendientes());
+      const pendientes = this.uiService.pendientes();       
+      this.solicitudService.cargarSolicitudes(pendientes);
     });
     const effectLoader=effect(() => {
       try {
@@ -63,6 +63,7 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
   ngOnInit(): void {
     this.autoFitColumns = false;    
     this.iniciarResizeGrid(this.minusHeight);
+    this.solicitudService.cargarSolicitudes(this.uiService.pendientes());
 
   }
 
