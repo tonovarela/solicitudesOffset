@@ -180,6 +180,7 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
   }
 
   esAdministrador = computed(() => this.usuarioService.esAdministrador());
+  esAlmacenista = computed(() => this.usuarioService.esAlmacenista());
 
 
 

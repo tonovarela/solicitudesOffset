@@ -50,4 +50,5 @@ export class UsuarioService {
   puedeCancelar = computed(()=>this.usuario()?.rol === Rol.ADMINISTRADOR  || this.usuario()?.rol === Rol.ALMACENISTA);
   puedeSurtir = computed(()=>this.usuario()?.rol === Rol.ADMINISTRADOR  || this.usuario()?.rol === Rol.ALMACENISTA );
   esAdministrador= computed(()=>this.usuario()?.rol === Rol.ADMINISTRADOR);
+  esAlmacenista= computed(()=>this.usuario()?.rol === Rol.ALMACENISTA);
 }
