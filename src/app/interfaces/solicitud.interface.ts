@@ -15,6 +15,13 @@ export interface Solicitud {
     fecha_registro: Date;
     fecha_entrega: Date;
     motivoCancelacion?: string;
+    puedeEditar?: boolean;
+}
+
+
+export interface MotivoCancelacion {
+    id: number;
+    descripcion: string;
 }
 
 export interface Orden {

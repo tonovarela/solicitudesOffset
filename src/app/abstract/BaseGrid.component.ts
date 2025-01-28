@@ -4,11 +4,13 @@ import { PageSettingsModel, FilterSettingsModel, GridComponent } from '@syncfusi
 
 import { SynfusionModule } from '../lib/synfusion/synfusion.module';
 import { WindowService } from '../services/window.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
     template: '',
     standalone: true,
+    
     imports: [SynfusionModule]
 })
 export abstract class BaseGridComponent implements OnDestroy {

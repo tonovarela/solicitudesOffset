@@ -20,4 +20,9 @@
         height: 40px;
         @apply py-3  
     }
-   
+    
+
+    ::ng-deep .form-control {
+        @apply flex h-11 text-center  w-full rounded-md border    focus-visible:ring-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50
+      }
+      

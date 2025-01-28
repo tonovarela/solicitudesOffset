@@ -1,16 +1,19 @@
-import { Firma, Maquina, Orden, Solicitud } from "./solicitud.interface";
+import { Firma, Maquina, MotivoCancelacion, Orden, Solicitud } from "./solicitud.interface";
 import { Rol } from "./usuario.interface";
 
 interface Response {
-    ok:boolean
+    ok: boolean
 }
 
-export interface ResponseBuscarOrden   extends Response {    
-    ordenes:Orden[]
+export interface ResponseBuscarOrden extends Response {
+    ordenes: Orden[]
 }
 
-export interface ResponseListarMaquinas  extends Response {
-    maquinas :Maquina[]
+export interface ResponseListarMaquinas extends Response {
+    maquinas: Maquina[]
+}
+export interface ResponseMotivoCancelacion extends Response {
+    motivos: MotivoCancelacion[]
 }
 
 export interface ResponseObtenerSurtido extends Response {
@@ -21,20 +24,20 @@ export interface ResponseListadoSolicitud extends Response {
 }
 
 export interface ResponseFirmasSurtido extends Response {
-    firmas:Firma[]
+    firmas: Firma[]
 }
 
 
 
-export interface ResponseAuth  extends Response {    
+export interface ResponseAuth extends Response {
     mensaje: string;
     usuario: UsuarioResponse;
 }
 
 export interface UsuarioResponse {
-    rol:     Rol;
+    rol: Rol;
     id: string;
-    personal:  string;
-    nombre:     string;
-    login:      string;
+    personal: string;
+    nombre: string;
+    login: string;
 }

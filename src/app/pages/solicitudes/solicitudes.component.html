@@ -7,17 +7,17 @@
     <e-columns>
       <ng-template #toolbarTemplate let-data>
         <div class="flex justify-end border-1 rounded-t-md " style="background-color: #f9fafb;;">
-          
+
           <button
             class="mr-5 my-2 p-2 border font-bold border-slate-400 text-xs rounded-md  hover:bg-indigo-700 hover:text-white"
             (click)="tooglePendientes()">
             @if(pendientes()){
             Cerradas
             }@else{
-             Pendientes
+            Pendientes
             }
           </button>
-          
+
         </div>
 
       </ng-template>
@@ -64,10 +64,9 @@
               </g>
             </svg>
             @if (usuarioService.puedeSurtir()){
-            <svg xmlns="http://www.w3.org/2000/svg" (click)="surtir(data)" class="h-6 w-6 stroke-slate-500  hover:stroke-indigo-800  cursor-pointer"
-              viewBox="0 0 24 24" fill="none" 
-              stroke="#000000" stroke-width="1" stroke-linecap="round"
-              stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" (click)="surtir(data)"
+              class="h-6 w-6 stroke-slate-500  hover:stroke-indigo-800  cursor-pointer" viewBox="0 0 24 24" fill="none"
+              stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
@@ -78,8 +77,8 @@
                 <circle cx="12" cy="12" r="7"></circle>
                 <circle cx="12" cy="12" r="3"></circle>
               </g>
-            </svg>            
-          }
+            </svg>
+            }
           </div>
         </ng-template>
       </e-column>
@@ -90,13 +89,15 @@
       </e-column>
       <e-column field='solicitante' width='120' AutoFit></e-column>
       <e-column field='op' width='100' AutoFit></e-column>
+
+
       <e-column field='estado' width='150'>
         <ng-template #template let-data>
           @if(data.id_estado==1){
           <div class="flex justify-between w-full   ">
             <span class="">{{data.estado}}</span>
             @if (usuarioService.puedeCancelar()){
-              <svg fill="currentColor" (click)="mostrarModal(data)"             
+            <svg fill="currentColor" (click)="mostrarModal(data)"
               class="w-5 h-5 mr-2 hover:font-extrabold hover:text-pink-500 text-pink-400 cursor-pointer" version="1.1"
               id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               viewBox="0 0 512 512" xml:space="preserve">
@@ -120,7 +121,7 @@
               </g>
             </svg>
             }
-          
+
 
 
           </div>
@@ -134,7 +135,7 @@
       <e-column field='cantidad' width='100'>
         <ng-template #template let-data>
           {{data.cantidad | number}}
-          </ng-template>  
+        </ng-template>
       </e-column>
       <e-column field='cantidadSurtida' headerText="surtido" width='100'>
         <ng-template #template let-data>
@@ -144,23 +145,50 @@
       <e-column field='maquina' width='150'></e-column>
       <e-column field='fecha_registro' width='150'>
         <ng-template #template let-data>
-          {{data.fecha_registro | date: 'dd-MM-yyyy'}}
+          {{data.fecha_registro | date: 'dd-MM-yyyy HH:mm '}}
         </ng-template>
       </e-column>
-      <e-column field='fecha_entrega' width='150'>
+      <e-column field='fecha_entrega' width='200'>
         <ng-template #template let-data>
-          {{data.fecha_entrega | date: 'dd-MM-yyyy hh:mm a'}}
+          <div class="flex justify-between">
+            {{data.fecha_entrega | date: 'dd-MM-yyyy HH:mm '}}
+            @if( (data.puedeEditar || esAdministrador()) && data.id_estado==1 ){
+            <svg class="w-5 h-5 mr-2  cursor-pointer" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              (click)="editarFechaEntrega(data)">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path d="M8 2V5" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M16 2V5" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M3.5 9.08997H20.5" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+                <path
+                  d="M19.21 15.77L15.6701 19.31C15.5301 19.45 15.4 19.71 15.37 19.9L15.18 21.25C15.11 21.74 15.45 22.0801 15.94 22.0101L17.29 21.82C17.48 21.79 17.75 21.66 17.88 21.52L21.4201 17.9801C22.0301 17.3701 22.3201 16.6601 21.4201 15.7601C20.5301 14.8701 19.82 15.16 19.21 15.77Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M18.7001 16.28C19.0001 17.36 19.8401 18.2 20.9201 18.5" stroke="#292D32" stroke-width="1.5"
+                  stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M12 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5V12"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M11.9955 13.7H12.0045" stroke="#292D32" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M8.29431 13.7H8.30329" stroke="#292D32" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path d="M8.29431 16.7H8.30329" stroke="#292D32" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </g>
+            </svg>
+            }
+          </div>
         </ng-template>
       </e-column>
+      <e-column field='comentarios' width='150'></e-column>
     </e-columns>
-    <ng-template #emptyRecordTemplate>
-      custom text
-    </ng-template>
-    
   </ejs-grid>
-
 </div>
-
 <a routerLink="/nuevo" type="button"
   class="text-white fixed bottom-4 right-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-4 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
   <svg class="w-4 h-4 " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -173,29 +201,35 @@
   </svg>
 </a>
 
-
 <p-dialog [modal]="true" showHeader="false" [(visible)]="modalCancelacion" closable="false" closeOnEscape="false"
-  [style]="{ width: '50rem','border-radius':'100px' }">
+  [style]="{ width: '50rem', 'border-radius': '100px' }">
   <div class="flex flex-col items-end mt-5 w-full p-0">
-    <div class="relative w-full ">
-      <textarea [(ngModel)]="motivoCancelacion"
-        class="peer h-full min-h-[150px] w-full resize-none rounded-md border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50"
-        placeholder=" "></textarea>
-      <label
-        class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[4.1] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-        Motivo por el cual cancela la solicitud
-      </label>
+    <div class="relative w-full">
+      <label for="id_motivo" class="block text-sm font-medium text-gray-700 mb-2">Motivo de cancelación</label>
+      <select id="id_motivo" name="id_motivo" [(ngModel)]="motivoCancelacion.id_motivo"
+        class="h-10 w-full pl-4 pr-10  text-base border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option value="0">Selecciona un motivo</option>
+        @for(motivo of solicitudService.motivosCancelacion();track motivo.id){
+        <option [value]="motivo.id">{{ motivo.descripcion }}</option>
+        }
+
+      </select>
+      <label for="motivoCancelacion" class="block text-sm font-medium text-gray-700 mt-4 mb-2">Descripción</label>
+      <textarea id="motivoCancelacion" [(ngModel)]="motivoCancelacion.descripcion"
+        class="h-32 mt-2 w-full resize-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+        placeholder="Escribe el motivo de la cancelación"></textarea>
     </div>
   </div>
 
-
   <ng-template pTemplate="footer">
-    <div class="flex justify-end gap-2 ">
-      <button [disabled]="cancelandoSolicitud" class="bg-gray-300 rounded-md  p-2"
+    <div class="flex justify-end gap-2 mt-4">
+      <button [disabled]="cancelandoSolicitud"
+        class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
         (click)="cerrarModal()">Cancelar</button>
       <button [disabled]="cancelandoSolicitud"
-        class="bg-indigo-700 text-white rounded-md disabled:bg-indigo-700/65  p-2" (click)="cerrarSolicitud()">
-        <i *ngIf="cancelandoSolicitud" class="fas fa-spinner fa-spin"></i>
+        class="bg-indigo-600 text-white rounded-md px-4 py-2 hover:bg-indigo-700 disabled:bg-indigo-600/65 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        (click)="cerrarSolicitud()">
+        <i *ngIf="cancelandoSolicitud" class="fas fa-spinner fa-spin mr-2"></i>
         Guardar
       </button>
     </div>
@@ -220,8 +254,7 @@
       <div class="w-full overflow-x-auto">
         <table class="w-full">
           <thead>
-            <tr
-              class="text-md font-semibold  text-left text-white bg-slate-700 uppercase   ">
+            <tr class="text-md font-semibold  text-left text-white bg-slate-700 uppercase   ">
               <th class="px-4 ">Firma</th>
               <th class="px-4 ">Cantidad</th>
               <th class="px-4 ">Entrego</th>
@@ -241,11 +274,11 @@
               </td>
               <td class="px-4 py-1 text-ms font-semibold  text-center">{{firma.cantidad | number}}</td>
               <td class="">
-                <div class="px-2 py-1 font-semibold flex flex-col  justify-items-center items-center rounded-sm"> 
-                  <img class="w-9 h-9 rounded-full" [src]="firma.personal" alt="" loading="lazy" />                
-                  {{firma.usuario}} 
+                <div class="px-2 py-1 font-semibold flex flex-col  justify-items-center items-center rounded-sm">
+                  <img class="w-9 h-9 rounded-full" [src]="firma.personal" alt="" loading="lazy" />
+                  {{firma.usuario}}
                 </div>
-                
+
               </td>
               <td class="px-4 py-1 text-sm  text-center">{{firma.fecha_registro | date:'dd-MM-yyyy hh:mm'}}</td>
             </tr>
@@ -261,11 +294,56 @@
 
 
 
-
   <ng-template pTemplate="footer">
     <div class="flex justify-end gap-2 ">
       <button class="bg-indigo-700 text-white rounded-md disabled:bg-indigo-700/65  p-2" (click)="cerrarModalFirmas()">
         Cerrar
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog [modal]="true" header="Actualizar  fecha de entrega" showHeader="true"
+  [visible]="solicitudPorEditarFecha!=null" closable="true" closeOnEscape="true"
+  [style]="{ height: '50rem',width:'34rem','border-radius':'100px' }">
+  <ng-template pTemplate="closeicon">
+    <div class="flex justify-end gap-2 ">
+      <button class="bg-white text-white rounded-full p-2 disabled:bg-indigo-700/65" (click)="cerrarModalEditarFecha()">
+        <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <g id="Menu / Close_SM">
+              <path id="Vector" d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke="#000000" stroke-width="1"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </ng-template>
+
+  <div class=" h-34 w-full p-2">
+    @if(solicitudPorEditarFecha!= null){
+    <div class="text-center font-medium py-1 text-pretty text-white  rounded-1 bg-slate-700">
+      {{solicitudPorEditarFecha.fecha_entrega | date: 'dd-MM-yyyy HH:mm'}}
+    </div>
+    <br>
+    <p-calendar styleClass="w-full text-sm border border-gray-300 rounded-md" 
+    [inline]="true" 
+    dateFormat="dd-mm-yy" [(ngModel)]="solicitudPorEditarFecha.fecha_entrega"
+      [readonlyInput]="true" placeholder="Captura la fecha de entrega" [showTime]="true" 
+      inputStyleClass="form-control text-sm placeholder:text-sm  px-3 py-2" />    
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2 ">
+      <button class="bg-indigo-700 text-white rounded-md disabled:bg-indigo-700/65  p-2"
+        (click)="guardarFechaEntrega()">
+
+        Guardar
       </button>
     </div>
   </ng-template>
