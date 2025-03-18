@@ -106,8 +106,7 @@ export class SolicitudesComponent extends BaseGridComponent implements OnInit {
     this.solicitudPorCancelar = null;
   }
 
-  async cerrarSolicitud() {
-    console.log(this.motivoCancelacion);
+  async cerrarSolicitud() {    
     if (this.motivoCancelacion.descripcion.trim().length <= 3 || this.motivoCancelacion.id_motivo == 0) {
       return;
     };

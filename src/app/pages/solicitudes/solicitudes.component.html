@@ -82,7 +82,7 @@
           </div>
         </ng-template>
       </e-column>
-      <e-column field="id" headerText='id' width='80'>
+      <e-column field="id_solicitud" headerText='id' width='80'>
         <ng-template #template let-data>
           {{data.id_solicitud}}
         </ng-template>
@@ -186,6 +186,12 @@
         </ng-template>
       </e-column>
       <e-column field='comentarios' width='150'></e-column>
+      <e-column field='nombreAtendio'  headerText="Atendió" width='150'></e-column>
+      <e-column field='fechaAtendio'  headerText="Fecha atencion" width='150'>
+        <ng-template #template let-data>
+          {{data.fechaAtendio | date: 'dd-MM-yyyy HH:mm '}}
+        </ng-template>
+      </e-column>
     </e-columns>
   </ejs-grid>
 </div>
