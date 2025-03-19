@@ -52,7 +52,7 @@ export class SolicitudService {
   }
 
   cargarMotivosCancelacion() {
-    this.httpClient.get<ResponseMotivoCancelacion>(this.URL + '/api/motivos')
+    this.httpClient.get<ResponseMotivoCancelacion>(this.URL + '/api/motivos')      
       .subscribe(({ motivos }) => this._motivosCancelacion.set(motivos));
   }
 
