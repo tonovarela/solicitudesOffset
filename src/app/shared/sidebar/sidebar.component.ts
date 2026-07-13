@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UiService } from '../../services/ui.service';
+import { environment } from '@env/environment.development';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +10,7 @@ import { UiService } from '../../services/ui.service';
 export class SidebarComponent {
 
   uiService = inject(UiService);
+  isDebug= !environment.production;
 
 
   toogleMenu() {
